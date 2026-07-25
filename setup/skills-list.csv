@@ -18,6 +18,18 @@ obra/superpowers|using-superpowers||
 obra/superpowers|dispatching-parallel-agents||
 shadcn/improve|improve||
 Forward-Future/loopy|loopy|skills/loopy|
+# loop-engineering: hand-authored skill for loop infrastructure (scaffold, score, schedule, govern).
+# Complements loopy (loop content) with loop infrastructure. Source: JZKK720/loop-engineering fork.
+# SKILL.md lives at ~/.agents/skills/loop-engineering/ — not a direct upstream install.
+local/loop-engineering|loop-engineering||
+# watch-skill: hand-authored skill for video intelligence (watch, remember, verify).
+# Upstream: oxbshw/watch-skill (MIT, 228★). MCP via `watch-skill serve`.
+# SKILL.md lives at ~/.agents/skills/watch-skill/ — not a direct upstream install.
+local/watch-skill|watch-skill||
+# wigolo: hand-authored skill for local-first web intelligence (search, fetch, crawl, research).
+# Upstream: KnockOutEZ/wigolo (AGPL-3.0). MCP via `npx wigolo`.
+# SKILL.md lives at ~/.agents/skills/wigolo/ — not a direct upstream install.
+local/wigolo|wigolo||
 DietrichGebert/ponytail|ponytail||
 Nutlope/hallmark|hallmark||
 Leonxlnx/taste-skill|taste-skill|skills/taste-skill|

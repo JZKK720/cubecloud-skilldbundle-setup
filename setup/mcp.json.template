@@ -40,6 +40,24 @@
       "command": "headroom",
       "args": ["mcp", "serve"],
       "env": { "PYTHONUTF8": "1" }
+    },
+    "loop-engineering": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@cobusgreyling/loop-mcp-server"],
+      "env": {}
+    },
+    "watch-skill": {
+      "type": "stdio",
+      "command": "watch-skill",
+      "args": ["serve"],
+      "env": { "PYTHONUTF8": "1" }
+    },
+    "wigolo": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "wigolo"],
+      "env": {}
     }
   },
   "inputs": []

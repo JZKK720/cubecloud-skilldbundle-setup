@@ -1,10 +1,10 @@
 # 🧊 CubeCloud Skills Bundle
 
-> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 139 skills, 12 CLIs, 7 MCP servers, and a 74-site design-system library, all security-gated.
+> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 142 skills, 15 CLIs, 10 MCP servers, and a 74-site design-system library, all security-gated.
 
-[![Skills](https://img.shields.io/badge/skills-139-2ea44f)](#whats-included)
-[![CLIs](https://img.shields.io/badge/CLIs-12-blue)](#clis-installed)
-[![MCP servers](https://img.shields.io/badge/MCP%20servers-7-purple)](#mcp-servers)
+[![Skills](https://img.shields.io/badge/skills-142-2ea44f)](#whats-included)
+[![CLIs](https://img.shields.io/badge/CLIs-15-blue)](#clis-installed)
+[![MCP servers](https://img.shields.io/badge/MCP%20servers-10-purple)](#mcp-servers)
 [![Security gate](https://img.shields.io/badge/security%20gate-SkillSpector-green)](#security-model)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4)](#prerequisites)
 [![License](https://img.shields.io/badge/license-MIT-success)](LICENSE)
@@ -21,10 +21,10 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 
 | | Count | What |
 |---|---|---|
-| 🧠 Skills | **139** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, and more |
-| 🔧 CLIs | **12** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom` |
-| 🔌 MCP servers | **7** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom |
-| 📚 Fork mirrors | **27** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md |
+| 🧠 Skills | **142** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, and more |
+| 🔧 CLIs | **15** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo` |
+| 🔌 MCP servers | **10** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo |
+| 📚 Fork mirrors | **30** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo |
 | 🎨 DESIGN.md files | **74** | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill |
 | 🔒 Security-gated | **yes** | Every skill scanned by SkillSpector before install; 5 skills blocked by design |
 
@@ -46,7 +46,7 @@ graph TB
         EXT["extensions · presets · bundles"]
     end
 
-    subgraph L2["LAYER 2 — Skills (113 core, 26 Azure)"]
+    subgraph L2["LAYER 2 — Skills (116 core, 26 Azure)"]
         direction LR
         METH["superpowers (12)"] --> COPILOT["VS Code Copilot Chat"]
         DSN["design systems (74)"] --> COPILOT
@@ -54,12 +54,12 @@ graph TB
         DBG["debugging (4)"] --> COPILOT
         LOOP["loop engineering (5)"] --> COPILOT
         AZURE["Azure/cloud (26)"] --> COPILOT
-        CRAFT["crafted (13)"] --> COPILOT
+        CRAFT["crafted (16)"] --> COPILOT
     end
 
     subgraph L1["LAYER 1 — CLIs + MCP Servers"]
         direction LR
-        CLI["12 CLIs on PATH"] --> MCP["7 MCP servers"]
+        CLI["15 CLIs on PATH"] --> MCP["10 MCP servers"]
         MCP --> VSCODE["VS Code mcp.json"]
     end
 
@@ -105,7 +105,7 @@ winget install Microsoft.VisualStudioCode
 
 ## What's included
 
-### Skills (139 active, 1 disabled, 5 blocked — 2 with clean ports)
+### Skills (142 active, 1 disabled, 5 blocked — 2 with clean ports)
 
 **Superpowers methodology (12 skills)** from [obra/superpowers](https://github.com/obra/superpowers):
 test-driven-development · systematic-debugging · writing-plans · executing-plans · subagent-driven-development · requesting-code-review · receiving-code-review · using-git-worktrees · finishing-a-development-branch · writing-skills · using-superpowers · dispatching-parallel-agents
@@ -131,6 +131,9 @@ These Azure/Foundry entries are standard extension-provided skills, not custom b
 - **self-learning** — capture hard-won workflows as reusable skills
 - **improve** — audit a codebase into prioritized implementation plans
 - **loopy** — discover, run, and publish repeatable agent loops
+- **loop-engineering** — design, scaffold, audit, and operate agent loop infrastructure (scheduling, isolation, scoring, governance). Complements loopy (loop content) with loop infrastructure.
+- **watch-skill** — video intelligence for agents: watch, remember, verify. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP (browser/UI verification).
+- **wigolo** — local-first web intelligence: search, fetch, crawl, extract, research. 10 MCP tools, no API keys needed for core tools. Complements firecrawl (paid) with a free local alternative.
 - **ponytail** — force the laziest solution that actually works (YAGNI)
 - **hallmark** — anti-slop UI design for landing pages and redesigns
 - **taste-skill** — frontend taste/polish, anti-templated output
@@ -179,6 +182,9 @@ Custom implementations maintained in this setup are `agent-reach` and `gstack-re
 | `firecrawl` | npm | Firecrawl API CLI |
 | `gbrain` | bun | Persistent agent memory |
 | `headroom` | uv | Context compression layer for AI agents (60-95% fewer tokens); MCP server exposes `headroom_compress`, `headroom_retrieve`, `headroom_stats`. Requires Defender exclusion for `ast-grep-cli` — see [Platform limitations](#platform-limitations-windows). |
+| `loop` | npm | Loop engineering CLI front door — `npx @cobusgreyling/loop init|doctor|status|audit|cost`. Scaffolds agent loops (daily triage, PR babysitter, CI sweeper, etc.) with Loop Ready scoring. |
+| `watch-skill` | uv | Video intelligence CLI — `watch-skill watch|ask|search|serve`. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP verification. |
+| `wigolo` | npm | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools. |
 
 ### MCP servers
 
@@ -190,6 +196,9 @@ Configured in VS Code User `mcp.json`:
 - **gbrain** — persistent memory
 - **graphify** — codebase knowledge graphs
 - **headroom** — context compression (`headroom_compress`, `headroom_retrieve`, `headroom_stats`)
+- **loop-engineering** — loop pattern lookup, skills, state (`@cobusgreyling/loop-mcp-server`)
+- **watch-skill** — video analysis, transcription, OCR, THE LOOP verification (`watch-skill serve`)
+- **wigolo** — local-first web search, fetch, crawl, research (`npx wigolo`)
 
 ## Security model
 
@@ -215,11 +224,11 @@ Full verdict history is in [`upstream/SCAN_LOG.md`](upstream/SCAN_LOG.md).
 │   ├── setup-global-skills.ps1 # master installer
 │   ├── install-skill.ps1       # security-gated skill install helper
 │   ├── skills-list.csv         # manifest of skills to install
-│   ├── mcp.json.template       # 7 MCP server config
+│   ├── mcp.json.template       # 10 MCP server config
 │   └── SETUP_GUIDE.md          # detailed guide
 ├── bin/                        # 17 audit/fix/install helper scripts
 ├── upstream/                   # governance docs + design-md-library wrapper skill
-└── forks/JZKK720/              # 23 read-only fork mirrors (gitignored, re-cloned)
+└── forks/JZKK720/              # 30 read-only fork mirrors (gitignored, re-cloned)
 ```
 
 ## How to use after setup
@@ -233,6 +242,9 @@ In Copilot Chat, try:
 - *"use **agent-reach** to research what people are saying about X on Reddit"*
 - *"use `specify init my-app --integration copilot` to scaffold a new SDD project"*
 - *"then `/speckit.specify Build a photo organizer with album grouping and drag-and-drop`"*
+- *"use **loop-engineering** to set up automated daily triage on this repo"*
+- *"use **watch-skill** to analyze this meeting recording"*
+- *"use **wigolo** to research what's new in React 19"*
 
 ## To update later
 
