@@ -3,6 +3,7 @@
 $env:PATH = "$env:USERPROFILE\.local\bin;$env:USERPROFILE\.bun\bin;$env:APPDATA\npm;$env:PATH"
 $env:PYTHONUTF8 = "1"
 $reportFile = "$env:USERPROFILE\dev\upstream\MCP_SMOKE_TEST.md"
+$runId = "{0}_{1}" -f (Get-Date -Format "yyyyMMdd_HHmmss"), $PID
 $results = @()
 
 $servers = @(
@@ -15,10 +16,10 @@ $servers = @(
 )
 
 foreach ($s in $servers) {
-  $outFile = Join-Path $env:TEMP "mcpfinal_$($s.name)_out.log"
-  $errFile = Join-Path $env:TEMP "mcpfinal_$($s.name)_err.log"
-  if (Test-Path $outFile) { Remove-Item $outFile -Force }
-  if (Test-Path $errFile) { Remove-Item $errFile -Force }
+  $outFile = Join-Path $env:TEMP "mcpfinal_$($s.name)_$runId`_out.log"
+  $errFile = Join-Path $env:TEMP "mcpfinal_$($s.name)_$runId`_err.log"
+  if (Test-Path $outFile) { Remove-Item $outFile -Force -ErrorAction SilentlyContinue }
+  if (Test-Path $errFile) { Remove-Item $errFile -Force -ErrorAction SilentlyContinue }
   
   $fullCmd = if ($s.args -and $s.args.Length -gt 0) { "$($s.cmd) $($s.args)" } else { "$($s.cmd)" }
   
