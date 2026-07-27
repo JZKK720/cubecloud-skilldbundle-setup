@@ -84,7 +84,7 @@ graph TB
 ## Quick start
 
 ```powershell
-git clone https://github.com/JZKK720/cubecloud-skillsboundle-setup.git ~/dev/setup
+git clone https://github.com/JZKK720/cubecloud-skilldbundle-setup.git ~/dev/setup
 powershell -NoProfile -ExecutionPolicy Bypass -File ~/dev/setup/setup-global-skills.ps1
 ```
 
@@ -116,13 +116,13 @@ safety-guard · token-budget-advisor · intent-driven-development · verificatio
 **oz-skills (14 active)** from the JZKK720 fork mirror:
 analysis-artifacts · ci-fix · create-pull-request · dbt-model-index · docs-update · github-bug-report-triage · github-issue-dedupe · mcp-builder · scheduler · seo-aeo-audit · slack-qa-investigate · terraform-style-check · web-accessibility-audit · web-performance-audit
 
-**ui-skills (6 active)** from [ibelick/ui-skills](https://github.com/ibelick/ui-skills):
-ui-skills-root · baseline-ui · fixing-accessibility · fixing-metadata · fixing-motion-performance · improve-ui
+**ui-skills (7 active)** from [ibelick/ui-skills](https://github.com/ibelick/ui-skills):
+ui-skills-root · baseline-ui · create-design-md · fixing-accessibility · fixing-metadata · fixing-motion-performance · improve-ui
 
 **agent-skills (23 active, unique entries)** from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills):
 api-and-interface-design · browser-testing-with-devtools · ci-cd-and-automation · code-review-and-quality · code-simplification · context-engineering · debugging-and-error-recovery · deprecation-and-migration · documentation-and-adrs · doubt-driven-development · frontend-ui-engineering · git-workflow-and-versioning · idea-refine · incremental-implementation · interview-me · observability-and-instrumentation · performance-optimization · planning-and-task-breakdown · security-and-hardening · shipping-and-launch · source-driven-development · spec-driven-development · using-agent-skills
 
-**Azure & cloud (24 skills)** — bundled with VS Code Azure extensions, discovered automatically:
+**Azure & cloud (27 skills)** — bundled with VS Code Azure extensions, discovered automatically:
 ai-mlstudio · airunway-aks-setup · appinsights-instrumentation · azure-ai · azure-aigateway · azure-cloud-migrate · azure-compliance · azure-compute · azure-cost · azure-deploy · azure-diagnostics · azure-enterprise-infra-planner · azure-kubernetes · azure-kusto · azure-messaging · azure-prepare · azure-quotas · azure-reliability · azure-resource-lookup · azure-resource-visualizer · azure-storage · azure-upgrade · azure-validate · entra-agent-id · entra-app-registration · microsoft-foundry · python-appservice-deploy
 
 These Azure/Foundry entries are standard extension-provided skills, not custom bundle ports.
@@ -204,7 +204,7 @@ Configured in VS Code User `mcp.json`:
 
 Every skill is scanned by **NVIDIA SkillSpector** before install:
 
-```
+```powershell
 skillspector scan --no-llm <dir>
 ```
 
@@ -223,7 +223,7 @@ Full verdict history is in [`upstream/SCAN_LOG.md`](upstream/SCAN_LOG.md).
 ├── setup/                      # the one-command installer + config
 │   ├── setup-global-skills.ps1 # master installer
 │   ├── install-skill.ps1       # security-gated skill install helper
-│   ├── skills-list.csv         # manifest of skills to install
+│   ├── skills-list.csv         # manifest of 111 entries (110 active + 1 disabled)
 │   ├── mcp.json.template       # 10 MCP server config
 │   └── SETUP_GUIDE.md          # detailed guide
 ├── bin/                        # 17 audit/fix/install helper scripts
@@ -281,19 +281,3 @@ cd ~/dev/bin
 | recall | Needs Claude Code hooks | Claude Code only; not for VS Code Copilot. |
 
 ## License
-
-MIT — see [LICENSE](LICENSE).
-
-The bundled skills retain their upstream licenses (mostly MIT). `gstack-review` is adapted from [garrytan/gstack](https://github.com/garrytan/gstack) (MIT, © 2026 Garry Tan). The `design-md-library` wrapper indexes content from [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) (MIT), which extracts publicly visible CSS values from public websites — no ownership of any site's visual identity is claimed.
-
-## Contributing
-
-This is a personal setup bundle. Issues and PRs are welcome, but the install pipeline is opinionated about security (SkillSpector is a hard gate, not a suggestion). If you submit a skill for inclusion, it must pass `skillspector scan` with exit 0.
-
-## Acknowledgements
-
-Built on the work of many open-source authors. See [`setup/skills-list.csv`](setup/skills-list.csv) for the full list of upstream sources. Special thanks to:
-- [obra/superpowers](https://github.com/obra/superpowers) — the core methodology
-- [NVIDIA/skillspector](https://github.com/NVIDIA/skillspector) — the security gate
-- [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) — the design system library
-- [garrytan/gstack](https://github.com/garrytan/gstack) — the PR review methodology

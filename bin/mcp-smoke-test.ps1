@@ -14,7 +14,11 @@ $servers = @(
   @{name="firecrawl"; cmd="npm"; args="view firecrawl-mcp version"; timeout=15},
   @{name="scrapling"; cmd="scrapling"; args="mcp --help"; timeout=15},
   @{name="gbrain"; cmd="gbrain"; args="serve --help"; timeout=15},
-  @{name="graphify"; cmd="graphify-mcp"; args="--help"; timeout=15}
+  @{name="graphify"; cmd="graphify-mcp"; args="--help"; timeout=15},
+  @{name="headroom"; cmd="headroom"; args="mcp serve --help"; timeout=15},
+  @{name="loop-engineering"; cmd="npx"; args="-y @cobusgreyling/loop-mcp-server --help"; timeout=20},
+  @{name="watch-skill"; cmd="watch-skill"; args="serve --help"; timeout=15},
+  @{name="wigolo"; cmd="npx"; args="-y wigolo --help"; timeout=20}
 )
 
 foreach ($s in $servers) {

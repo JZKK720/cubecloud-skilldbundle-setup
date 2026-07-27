@@ -6,7 +6,28 @@ $ProgressPreference = 'SilentlyContinue'
 $env:PYTHONUTF8 = '1'
 $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
 
-$repoRoot = "$env:USERPROFILE\dev\cubecloud-skillsboundle-setup"
+# Resolve repo root dynamically by walking upward until setup/skills-list.csv is found.
+function Find-RepoRoot([string]$startDir) {
+  $current = Resolve-Path $startDir
+  while ($true) {
+    if (Test-Path (Join-Path $current.Path 'setup\skills-list.csv')) {
+      return $current.Path
+    }
+    $parent = Split-Path $current.Path -Parent
+    if (-not $parent -or $parent -eq $current.Path) {
+      break
+    }
+    $current = Resolve-Path $parent
+  }
+  return $null
+}
+
+$repoRoot = Find-RepoRoot $PSScriptRoot
+if (-not $repoRoot) {
+  Write-Host "Could not resolve repo root from $PSScriptRoot" -ForegroundColor Red
+  exit 1
+}
+
 $csv   = Join-Path $repoRoot 'setup\skills-list.csv'
 $helper = "$env:USERPROFILE\dev\bin\install-skill.ps1"
 

@@ -247,10 +247,13 @@ $pyTools = @(
   @{name="graphifyy[mcp]"; pkg="graphifyy[mcp]"},
   @{name="markitdown[all]"; pkg="markitdown[all]"},
   @{name="scrapling[ai]"; pkg="scrapling[ai]"},
-  @{name="headroom-ai[proxy]"; pkg="headroom-ai[proxy]"}
+  @{name="headroom-ai[proxy]"; pkg="headroom-ai[proxy]"},
+  @{name="watch-skill"; pkg="git+https://github.com/oxbshw/watch-skill.git"}
 )
 foreach ($t in $pyTools) {
   $binName = $t.name -replace '\[.*\]',''
+  # headroom-ai installs as 'headroom' binary
+  if ($binName -eq 'headroom-ai') { $binName = 'headroom' }
   $already = Get-Command $binName -ErrorAction SilentlyContinue
   if ($already) { Write-OK "$binName already installed"; continue }
   Write-Host "  Installing $($t.name)..." -NoNewline
@@ -262,9 +265,15 @@ foreach ($t in $pyTools) {
 $npm = "C:\Program Files\nodejs\npm.cmd"
 if (-not (Test-Path $npm)) { $npm = (Get-Command npm -ErrorAction SilentlyContinue).Source }
 if ($npm) {
-  foreach ($pkg in @("ui-ux-pro-max-cli","firecrawl-cli")) {
-    $binName = $pkg -replace '-cli$',''
-    if ($binName -eq "ui-ux-pro-max-cli") { $binName = "uipro" }
+  $npmTools = @(
+    @{pkg="ui-ux-pro-max-cli"; bin="uipro"},
+    @{pkg="firecrawl-cli"; bin="firecrawl"},
+    @{pkg="@cobusgreyling/loop"; bin="loop"},
+    @{pkg="wigolo"; bin="wigolo"}
+  )
+  foreach ($tool in $npmTools) {
+    $pkg = $tool.pkg
+    $binName = $tool.bin
     $already = Get-Command $binName -ErrorAction SilentlyContinue
     if ($already) { Write-OK "$binName already installed"; continue }
     Write-Host "  Installing $pkg..." -NoNewline
