@@ -241,12 +241,14 @@ try {
 }
 
 $pyTools = @(
+  # specify-cli installs as 'specify' binary (not 'specify-cli')
   @{name="specify-cli"; pkg="specify-cli"},
   # skillopt (microsoft/SkillOpt, MIT) ships 3 console scripts: skillopt-train,
   # skillopt-eval, skillopt-sleep. There is NO binary named 'skillopt', so probe
   # skillopt-eval for the skip-if-present check (matches the audit scripts).
   @{name="skillopt-eval"; pkg="skillopt"},
   @{name="agent-reach"; pkg="git+https://github.com/Panniantong/Agent-Reach.git"},
+  # graphifyy[mcp] installs as 'graphify' binary (not 'graphifyy')
   @{name="graphifyy[mcp]"; pkg="graphifyy[mcp]"},
   @{name="markitdown[all]"; pkg="markitdown[all]"},
   @{name="scrapling[ai]"; pkg="scrapling[ai]"},
@@ -257,6 +259,10 @@ foreach ($t in $pyTools) {
   $binName = $t.name -replace '\[.*\]',''
   # headroom-ai installs as 'headroom' binary
   if ($binName -eq 'headroom-ai') { $binName = 'headroom' }
+  # specify-cli installs as 'specify' binary
+  if ($binName -eq 'specify-cli') { $binName = 'specify' }
+  # graphifyy installs as 'graphify' binary
+  if ($binName -eq 'graphifyy') { $binName = 'graphify' }
   $already = Get-Command $binName -ErrorAction SilentlyContinue
   if ($already) { Write-OK "$binName already installed"; continue }
   Write-Host "  Installing $($t.name)..." -NoNewline
