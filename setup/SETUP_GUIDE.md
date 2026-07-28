@@ -23,9 +23,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-global-skills.ps1
 | 1 | Install SkillSpector (security scanner) + skills-ref (spec validator) | ~2 min |
 | 1b | Copy install-skill.ps1 helper to ~/dev/bin/ | instant |
 | 2 | Install 15 CLI tools (uv tool + npm + bun) | ~5 min |
-| 3 | Clone 30 fork mirrors (29 JZKK720 + awesome-design-md) (skip with -SkipForks) | ~2 min |
+| 3 | Clone 31 fork mirrors (29 JZKK720 + awesome-design-md + microsoft/SkillOpt) (skip with -SkipForks) | ~2 min |
 | 4 | Install 114 manifest entries (113 active + 1 disabled) through the security-gated pipeline; combined with extension/CLI-provisioned skills this yields 142 active total | ~5 min |
-| 5 | Configure 10 MCP servers in VS Code User/mcp.json | instant |
+| 5 | Configure 11 MCP servers in VS Code User/mcp.json | instant |
 | 5b | Pin Copilot utility models in VS Code User/settings.json | instant |
 | 6 | Create governance docs (README, CONFLICTS, MEMORY_POLICY, UPDATE_POLICY, SCAN_LOG) | instant |
 | 7 | Quick audit (skill count, CLI check, mcp.json validation) | instant |
@@ -39,7 +39,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-global-skills.ps1
 ├── setup-global-skills.ps1   # Master one-command installer
 ├── install-skill.ps1          # Security-gated skill install helper (scan→validate→copy)
 ├── skills-list.csv            # List of skills to install (repo|name|relPath|disabled)
-├── mcp.json.template          # MCP server config template (10 servers)
+├── mcp.json.template          # MCP server config template (11 servers)
 └── SETUP_GUIDE.md             # This file
 ```
 
@@ -56,8 +56,8 @@ winget install Microsoft.VisualStudioCode
 
 ### What gets installed
 
-**10 MCP servers** (in VS Code User/mcp.json):
-- markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo
+**11 MCP servers** (in VS Code User/mcp.json):
+- markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt
 
 **Copilot utility model pins** (in VS Code User/settings.json):
 - `chat.utilityModel = ollama-models/gemma4:26b-a4b-it-qat`
@@ -101,7 +101,20 @@ Notes:
 - Azure/Foundry skills are standard extension-provided Copilot skills.
 - Custom implementations in this setup are `agent-reach` and `gstack-review`.
 
-**30 fork mirrors** (in ~/dev/forks/JZKK720/ — read-only backups, incl. VoltAgent/awesome-design-md, loop-engineering, watch-skill, wigolo)
+**31 fork mirrors** (in ~/dev/forks/JZKK720/ — read-only backups, incl. VoltAgent/awesome-design-md, microsoft/SkillOpt, loop-engineering, watch-skill, wigolo)
+
+### SkillOpt-Sleep (nightly self-evolution)
+
+The setup schedules a **SkillOpt-Sleep** nightly cycle (Phase 5c) that harvests past session transcripts, mines recurring tasks, replays them offline, and stages a validated skill edit for review. Installed as a Windows Scheduled Task at 03:17 daily with `backend=mock` (spends no model budget). Adopt is manual by design — nothing changes until you run `skillopt-sleep adopt`.
+
+```powershell
+skillopt-sleep status      # show state + latest staged proposal
+skillopt-sleep adopt       # apply the latest staged proposal (with backup)
+skillopt-sleep unschedule --all   # remove the nightly task
+skillopt-sleep schedule --project ~/dev --backend claude --hour 3 --minute 17
+```
+
+Logs land in `<project>/.skillopt-sleep/cron.log`. The Copilot MCP server (`skillopt` in mcp.json) exposes `skillopt_list_configs`, `skillopt_train`, `skillopt_eval` for interactive skill optimization on benchmark configs.
 
 **5 governance docs** (in ~/.agents/ + ~/dev/upstream/):
 - README.md, CONFLICTS.md, MEMORY_POLICY.md, UPDATE_POLICY.md, SCAN_LOG.md

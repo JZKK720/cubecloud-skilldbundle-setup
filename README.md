@@ -1,10 +1,10 @@
 # 🧊 CubeCloud Skills Bundle
 
-> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 142 skills, 15 CLIs, 10 MCP servers, and a 74-site design-system library, all security-gated.
+> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 142 skills, 15 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
 
 [![Skills](https://img.shields.io/badge/skills-142-2ea44f)](#whats-included)
 [![CLIs](https://img.shields.io/badge/CLIs-15-blue)](#clis-installed)
-[![MCP servers](https://img.shields.io/badge/MCP%20servers-10-purple)](#mcp-servers)
+[![MCP servers](https://img.shields.io/badge/MCP%20servers-11-purple)](#mcp-servers)
 [![Security gate](https://img.shields.io/badge/security%20gate-SkillSpector-green)](#security-model)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4)](#prerequisites)
 [![License](https://img.shields.io/badge/license-MIT-success)](LICENSE)
@@ -23,8 +23,8 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 |---|---|---|
 | 🧠 Skills | **142** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, and more |
 | 🔧 CLIs | **15** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo` |
-| 🔌 MCP servers | **10** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo |
-| 📚 Fork mirrors | **30** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo |
+| 🔌 MCP servers | **11** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt |
+| 📚 Fork mirrors | **31** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo |
 | 🎨 DESIGN.md files | **74** | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill |
 | 🔒 Security-gated | **yes** | Every skill scanned by SkillSpector before install; 5 skills blocked by design |
 
@@ -59,7 +59,7 @@ graph TB
 
     subgraph L1["LAYER 1 — CLIs + MCP Servers"]
         direction LR
-        CLI["15 CLIs on PATH"] --> MCP["10 MCP servers"]
+        CLI["15 CLIs on PATH"] --> MCP["11 MCP servers"]
         MCP --> VSCODE["VS Code mcp.json"]
     end
 
@@ -199,6 +199,20 @@ Configured in VS Code User `mcp.json`:
 - **loop-engineering** — loop pattern lookup, skills, state (`@cobusgreyling/loop-mcp-server`)
 - **watch-skill** — video analysis, transcription, OCR, THE LOOP verification (`watch-skill serve`)
 - **wigolo** — local-first web search, fetch, crawl, research (`npx wigolo`)
+- **skillopt** — SkillOpt research engine: validation-gated skill optimization via MCP tools `skillopt_list_configs`, `skillopt_train`, `skillopt_eval` (microsoft/SkillOpt, MIT). Shells out to the repo's `scripts/train.py` / `eval_only.py` — requires the SkillOpt fork mirror.
+
+### SkillOpt-Sleep (nightly self-evolution)
+
+The setup also schedules **SkillOpt-Sleep** — a nightly offline cycle that harvests past session transcripts, mines recurring tasks, replays them, and stages a validated skill edit for review (adopt is manual by design). Installed as a Windows Scheduled Task (`schtasks`) at 03:17 daily via `skillopt-sleep schedule --project ~/dev --backend mock`. The `mock` backend spends no model budget; re-schedule with `--backend claude` or `--backend copilot` once credentials are configured:
+
+```powershell
+skillopt-sleep status      # show state + latest staged proposal
+skillopt-sleep adopt       # apply the latest staged proposal (with backup)
+skillopt-sleep unschedule --all   # remove the nightly task
+skillopt-sleep schedule --project ~/dev --backend claude --hour 3 --minute 17
+```
+
+Logs land in `~/dev/.skillopt-sleep/cron.log`. Sleep only STAGES proposals — no skill changes until you run `adopt`.
 
 ## Security model
 
@@ -224,11 +238,11 @@ Full verdict history is in [`upstream/SCAN_LOG.md`](upstream/SCAN_LOG.md).
 │   ├── setup-global-skills.ps1 # master installer
 │   ├── install-skill.ps1       # security-gated skill install helper
 │   ├── skills-list.csv         # manifest of 111 entries (110 active + 1 disabled)
-│   ├── mcp.json.template       # 10 MCP server config
+│   ├── mcp.json.template       # 11 MCP server config
 │   └── SETUP_GUIDE.md          # detailed guide
 ├── bin/                        # 17 audit/fix/install helper scripts
 ├── upstream/                   # governance docs + design-md-library wrapper skill
-└── forks/JZKK720/              # 30 read-only fork mirrors (gitignored, re-cloned)
+└── forks/JZKK720/              # 31 read-only fork mirrors (gitignored, re-cloned)
 ```
 
 ## How to use after setup

@@ -38,4 +38,14 @@
 | 2026-07-20 01:11 | local/design-md-library | design-md-library | pass (exit 0) | active | ref:valid |
 | 2026-07-20 01:33 | local/idea-to-design | idea-to-design | pass (exit 0) | active | ref:valid |
 | 2026-07-20 01:34 | local/webapp-testing | webapp-testing | pass (exit 0) | active | ref:advisory |
+
+## microsoft/SkillOpt (2026-07-28)
+
+SkillOpt is a text-space skill optimizer (microsoft/SkillOpt, MIT, PyPI v0.2.0) — an engine/CLI, not a methodology SKILL.md. Integrated at the CLI + MCP + scheduler layer (correctly absent from skills-list.csv).
+
+- **CLI install**: `uv tool install --python 3.13 skillopt` ships 3 console scripts (`skillopt-train`, `skillopt-eval`, `skillopt-sleep`). Note: there is NO binary named `skillopt`; the setup script probes `skillopt-eval` for the skip-if-present check (naming bug fixed 2026-07-28).
+- **Copilot MCP server**: `plugins/copilot/skillopt/mcp_server.py` (stdio, stdlib-only) exposing `skillopt_list_configs`, `skillopt_train`, `skillopt_eval`. Added to `mcp.json.template` as `skillopt` (MCP count 10 -> 11). Requires `SKILLOPT_REPO` env pointing at the cloned repo (the MCP server shells out to `scripts/train.py` / `scripts/eval_only.py`, which live in the repo, NOT the PyPI wheel).
+- **Fork mirror**: `microsoft/SkillOpt` cloned to `~/dev/forks/JZKK720/SkillOpt` in Phase 3 (fork count 30 -> 31). Non-JZKK720 owner, like VoltAgent/awesome-design-md.
+- **SkillSpector**: not applicable (SkillOpt is a CLI/engine, not a SKILL.md skill). No scan run.
+- **SkillOpt-Sleep**: nightly self-evolution cycle scheduled via `skillopt-sleep schedule --project ~/dev --backend mock --hour 3 --minute 17` in Phase 5c. Installs a Windows Scheduled Task (schtasks) at 03:17 daily. Stages proposals only; adopt is manual.
 | 2026-07-20 01:34 | local/webapp-testing | webapp-testing | pass (exit 0) | active | ref:valid |

@@ -179,7 +179,7 @@ Write-OK "$($dirs.Count) directories created/verified"
 # ============================================================
 # PHASE 1: SECURITY GATE (SkillSpector + skills-ref)
 # ============================================================
-Write-Step "Phase 1: Security gate — SkillSpector + skills-ref"
+Write-Step "Phase 1: Security gate - SkillSpector + skills-ref"
 
 $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
 
@@ -216,7 +216,7 @@ if (Test-Path $helperSrc) {
   Copy-Item $helperSrc $helperDst -Force
   Write-OK "install-skill.ps1 copied to ~/dev/bin/"
 } else {
-  Write-Warn "install-skill.ps1 not found in $PSScriptRoot — you need to copy it manually"
+  Write-Warn "install-skill.ps1 not found in $PSScriptRoot - you need to copy it manually"
 }
 
 # ============================================================
@@ -242,7 +242,10 @@ try {
 
 $pyTools = @(
   @{name="specify-cli"; pkg="specify-cli"},
-  @{name="skillopt"; pkg="skillopt"},
+  # skillopt (microsoft/SkillOpt, MIT) ships 3 console scripts: skillopt-train,
+  # skillopt-eval, skillopt-sleep. There is NO binary named 'skillopt', so probe
+  # skillopt-eval for the skip-if-present check (matches the audit scripts).
+  @{name="skillopt-eval"; pkg="skillopt"},
   @{name="agent-reach"; pkg="git+https://github.com/Panniantong/Agent-Reach.git"},
   @{name="graphifyy[mcp]"; pkg="graphifyy[mcp]"},
   @{name="markitdown[all]"; pkg="markitdown[all]"},
@@ -333,6 +336,15 @@ if (-not $SkipForks) {
   if (-not (Test-Path $admTarget)) {
     cmd /c "git clone --depth 1 https://github.com/VoltAgent/awesome-design-md.git `"$admTarget`" >nul 2>nul"
   }
+  # Non-JZKK720 fork mirror: microsoft/SkillOpt (MIT). The PyPI wheel installs the
+  # CLI binaries (skillopt-train/eval/sleep), but the Copilot MCP server at
+  # plugins/copilot/skillopt/mcp_server.py shells out to scripts/train.py and
+  # scripts/eval_only.py, which live in the repo, NOT the wheel. The MCP server
+  # reads SKILLOPT_REPO (set in mcp.json.template) to locate these scripts.
+  $skilloptTarget = Join-Path $dest "SkillOpt"
+  if (-not (Test-Path $skilloptTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/microsoft/SkillOpt.git `"$skilloptTarget`" >nul 2>nul"
+  }
   $forkCount = (Get-ChildItem $dest -Directory).Count
   Write-OK "$forkCount fork repos mirrored"
 }
@@ -378,7 +390,7 @@ foreach ($line in $lines) {
   if (Test-Path $destDir) { $skipped++; continue }
 
   Write-Host "  $name..." -NoNewline
-  # NOTE: do not use $args here — it is an automatic variable in PowerShell
+  # NOTE: do not use $args here - it is an automatic variable in PowerShell
   # and reassigning it corrupts splatting. Use a plain-named array instead.
   $installArgs = @("-Repo", $repo, "-Name", $name)
   if ($relPath) { $installArgs += @("-SkillRelPath", $relPath) }
@@ -428,7 +440,7 @@ if (Test-Path $mcpTemplate) {
     Write-OK "Created mcp.json from template"
   }
 } else {
-  Write-Warn "mcp.json.template not found — copy manually"
+  Write-Warn "mcp.json.template not found - copy manually"
 }
 
 # ============================================================
@@ -443,6 +455,31 @@ Set-JsoncSetting -Path $copilotSettingsPath -Values @{
   "chat.byokUtilityModelDefault" = "mainAgent"
 }
 Write-OK "Pinned VS Code Copilot utility models in user settings"
+
+# ============================================================
+# PHASE 5c: SKILLOPT-SLEEP NIGHTLY SCHEDULE
+# ============================================================
+# SkillOpt-Sleep harvests past session transcripts, mines recurring tasks,
+# replays them offline, and stages a validated skill edit for review (adopt
+# is manual by design). backend=mock spends no model budget; re-schedule with
+# --backend claude/copilot to actually evolve skills once credentials are set.
+# The scheduler auto-detects Windows and installs a Windows Scheduled Task
+# (schtasks) named "SkillOpt-Sleep-<sanitized-path>" at 03:17 daily.
+Write-Step "Phase 5c: SkillOpt-Sleep nightly schedule"
+$sleepBin = Get-Command skillopt-sleep -ErrorAction SilentlyContinue
+if ($sleepBin) {
+  $sleepProject = "$env:USERPROFILE\dev"
+  # Idempotent: skillopt-sleep schedule replaces the entry for this project.
+  $sleepOut = cmd /c "skillopt-sleep schedule --project `"$sleepProject`" --backend mock --hour 3 --minute 17 2>&1" | Out-String
+  if ($LASTEXITCODE -eq 0 -and $sleepOut -match "Scheduled nightly") {
+    Write-OK "SkillOpt-Sleep scheduled nightly at 03:17 for $sleepProject (backend=mock)"
+  } else {
+    Write-Warn "skillopt-sleep schedule did not confirm success. Output:"
+    Write-Host $sleepOut
+  }
+} else {
+  Write-Warn "skillopt-sleep CLI not found; skipping nightly schedule. Re-run setup after install to enable."
+}
 
 # ============================================================
 # PHASE 6: GOVERNANCE DOCS
@@ -511,7 +548,7 @@ if (-not $SkipAudit) {
   }
 
   $cliOk = 0; $cliFail = 0
-  foreach ($c in @("skillspector","skills-ref","specify","agent-reach","graphify","markitdown","gbrain","scrapling","uipro","firecrawl","headroom")) {
+  foreach ($c in @("skillspector","skills-ref","specify","agent-reach","graphify","markitdown","gbrain","scrapling","uipro","firecrawl","headroom","skillopt-eval")) {
     if (Get-Command $c -ErrorAction SilentlyContinue) { $cliOk++ } else { $cliFail++ }
   }
   Write-OK "CLI tools: $cliOk OK, $cliFail missing"
@@ -536,8 +573,8 @@ Write-Host "  2. In Copilot Chat, type # to see MCP tools"
 Write-Host "  3. Try: 'use the improve skill to audit this codebase'"
 Write-Host ""
 Write-Host "Files created:"
-Write-Host "  ~/.agents/skills/          — $skillCount skills (VS Code Copilot discovery)"
-Write-Host "  ~/.claude/skills/          — Claude Code mirror"
-Write-Host "  ~/dev/bin/install-skill.ps1 — security-gated install helper"
-Write-Host "  ~/dev/setup/               — this setup package (portable)"
-Write-Host "  ~/dev/upstream/SCAN_LOG.md — security scan log"
+Write-Host "  ~/.agents/skills/          - $skillCount skills (VS Code Copilot discovery)"
+Write-Host "  ~/.claude/skills/          - Claude Code mirror"
+Write-Host "  ~/dev/bin/install-skill.ps1 - security-gated install helper"
+Write-Host "  ~/dev/setup/               - this setup package (portable)"
+Write-Host "  ~/dev/upstream/SCAN_LOG.md - security scan log"
