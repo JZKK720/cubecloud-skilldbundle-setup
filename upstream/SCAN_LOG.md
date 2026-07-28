@@ -48,4 +48,17 @@ SkillOpt is a text-space skill optimizer (microsoft/SkillOpt, MIT, PyPI v0.2.0) 
 - **Fork mirror**: `microsoft/SkillOpt` cloned to `~/dev/forks/JZKK720/SkillOpt` in Phase 3 (fork count 30 -> 31). Non-JZKK720 owner, like VoltAgent/awesome-design-md.
 - **SkillSpector**: not applicable (SkillOpt is a CLI/engine, not a SKILL.md skill). No scan run.
 - **SkillOpt-Sleep**: nightly self-evolution cycle scheduled via `skillopt-sleep schedule --project ~/dev --backend mock --hour 3 --minute 17` in Phase 5c. Installs a Windows Scheduled Task (schtasks) at 03:17 daily. Stages proposals only; adopt is manual.
+
+## alibaba/open-code-review (2026-07-28)
+
+OpenCodeReview (OCR) is a deterministic + agent hybrid code review engine (alibaba/open-code-review, Apache-2.0, 15.3k stars, 89 releases). Battle-tested at Alibaba's scale — tens of thousands of developers, millions of defects. Integrated at the CLI + skills layer.
+
+- **CLI install**: `npm install -g @alibaba-group/open-code-review` installs the `ocr` binary (Go, npm-distributed). Added to Phase 2 npm tools (CLI count 15 -> 16).
+- **Skills**: 2 portable SKILL.md files from the upstream repo's `skills/` directory, copied to `upstream/open-code-review/` and `upstream/open-code-review-delegate/` in this repo. Both are pure markdown prompts with clean frontmatter (Apache-2.0, framework-agnostic). The delegate skill is LLM-free on the OCR side — the host agent drives the review.
+  - `open-code-review`: invokes `ocr review` with prerequisite checks, invocation workflow, and comment-triage rubric (High/Medium/Low).
+  - `open-code-review-delegate`: delegation mode — OCR handles file selection + rule resolution only; the host agent performs the review with its own LLM.
+- **Fork mirror**: `alibaba/open-code-review` cloned to `~/dev/forks/JZKK720/open-code-review` in Phase 3 (fork count 31 -> 32). Non-JZKK720 owner, like VoltAgent/awesome-design-md and microsoft/SkillOpt.
+- **SkillSpector**: pending — both SKILL.md files are pure markdown prompts with no bundled scripts. Expected LOW/SAFE. Scan to be run before the next setup invocation.
+- **Overlap**: no true redundancy. The existing `code-review-and-quality` (addyosmani/agent-skills) is a methodology checklist; OCR adds a deterministic engineering layer (file selection, rule matching, smart bundling) that the methodology skill lacks. Complementary, not redundant.
+- **Manifest entries**: 114 -> 116 (skills-list.csv). Active skills: 142 -> 144.
 | 2026-07-20 01:34 | local/webapp-testing | webapp-testing | pass (exit 0) | active | ref:valid |

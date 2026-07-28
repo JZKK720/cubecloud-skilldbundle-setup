@@ -173,3 +173,11 @@ JZKK720/ECC|connections-optimizer|skills/connections-optimizer|
 # Category: Engineering Practices
 JZKK720/ECC|mcp-server-patterns|skills/mcp-server-patterns|
 JZKK720/ECC|backend-patterns|skills/backend-patterns|
+# --- alibaba/open-code-review (Apache-2.0): 2 portable SKILL.md skills ---
+# open-code-review: deterministic + agent hybrid code review via `ocr` CLI.
+# open-code-review-delegate: delegation mode — host agent drives review, OCR
+# handles file selection + rule resolution only (no OCR-side LLM needed).
+# Both pass SkillSpector (pure markdown prompts, no bundled scripts).
+# Fork mirror: ~/dev/forks/JZKK720/open-code-review/
+local/open-code-review|open-code-review||upstream/open-code-review
+local/open-code-review-delegate|open-code-review-delegate||upstream/open-code-review-delegate

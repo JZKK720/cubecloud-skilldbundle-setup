@@ -23,8 +23,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-global-skills.ps1
 | 1 | Install SkillSpector (security scanner) + skills-ref (spec validator) | ~2 min |
 | 1b | Copy install-skill.ps1 helper to ~/dev/bin/ | instant |
 | 2 | Install 15 CLI tools (uv tool + npm + bun) | ~5 min |
-| 3 | Clone 31 fork mirrors (29 JZKK720 + awesome-design-md + microsoft/SkillOpt) (skip with -SkipForks) | ~2 min |
-| 4 | Install 114 manifest entries (113 active + 1 disabled) through the security-gated pipeline; combined with extension/CLI-provisioned skills this yields 142 active total | ~5 min |
+| 3 | Clone 32 fork mirrors (29 JZKK720 + awesome-design-md + microsoft/SkillOpt + alibaba/open-code-review) (skip with -SkipForks) | ~2 min |
+| 4 | Install 116 manifest entries (115 active + 1 disabled) through the security-gated pipeline; combined with extension/CLI-provisioned skills this yields 144 active total | ~5 min |
 | 5 | Configure 11 MCP servers in VS Code User/mcp.json | instant |
 | 5b | Pin Copilot utility models in VS Code User/settings.json | instant |
 | 6 | Create governance docs (README, CONFLICTS, MEMORY_POLICY, UPDATE_POLICY, SCAN_LOG) | instant |
@@ -64,13 +64,13 @@ winget install Microsoft.VisualStudioCode
 - `chat.utilitySmallModel = ollama-models/ornith:9b-q8_0`
 - `chat.byokUtilityModelDefault = mainAgent` (BYOK fallback when a utility flow needs a default)
 
-**15 CLI tools** (on permanent user PATH):
+**16 CLI tools** (on permanent user PATH):
 - skillspector, skills-ref, specify, skillopt-eval, agent-reach, graphify, markitdown, scrapling (via uv)
-- uipro, firecrawl, loop, wigolo (via npm)
+- uipro, firecrawl, loop, wigolo, ocr (via npm)
 - gbrain (via bun)
 - headroom, watch-skill (via uv; watch-skill from GitHub source)
 
-**114 manifest entries (113 active + 1 disabled) + 29 extension/CLI-provisioned skills = 142 active total** (in ~/.agents/skills/ — discovered by VS Code Copilot Chat):
+**116 manifest entries (115 active + 1 disabled) + 29 extension/CLI-provisioned skills = 144 active total** (in ~/.agents/skills/ — discovered by VS Code Copilot Chat):
 - superpowers methodology (12 skills): TDD, systematic-debugging, writing/executing-plans, subagent-driven-development, code review, git-worktrees, finishing-branch, writing-skills, using-superpowers, dispatching-parallel-agents
 - ECC agent engineering (35 skills): safety-guard, token-budget-advisor, intent-driven-development, verification-loop, eval-harness, agent-self-evaluation, prompt-optimizer, rules-distill, knowledge-ops, codebase-onboarding, repo-scan, code-tour, search-first, blueprint, strategic-compact, enterprise-agent-ops, production-audit, error-handling, delivery-gate, coding-standards, context-budget, security-review, security-scan, security-bounty-hunter, brand-discovery, brand-voice, frontend-design-direction, make-interfaces-feel-better, continuous-agent-loop, cost-tracking, cost-aware-llm-pipeline, automation-audit-ops, connections-optimizer, mcp-server-patterns, backend-patterns
 - self-learning (meta-skill for skill authoring)
@@ -96,12 +96,13 @@ winget install Microsoft.VisualStudioCode
 - gstack-review (hand-adapted pre-landing PR review port, with 8 reference files)
 - idea-to-design (clean port of brainstorming — methodology only, no browser server)
 - webapp-testing (clean port — methodology only, no bundled scripts; agent writes native Playwright or uses browser MCP tools)
+- open-code-review (2 active): open-code-review, open-code-review-delegate — deterministic + agent hybrid code review via `ocr` CLI (alibaba/open-code-review, Apache-2.0). The delegate skill is LLM-free on the OCR side.
 
 Notes:
 - Azure/Foundry skills are standard extension-provided Copilot skills.
 - Custom implementations in this setup are `agent-reach` and `gstack-review`.
 
-**31 fork mirrors** (in ~/dev/forks/JZKK720/ — read-only backups, incl. VoltAgent/awesome-design-md, microsoft/SkillOpt, loop-engineering, watch-skill, wigolo)
+**32 fork mirrors** (in ~/dev/forks/JZKK720/ — read-only backups, incl. VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, loop-engineering, watch-skill, wigolo)
 
 ### SkillOpt-Sleep (nightly self-evolution)
 

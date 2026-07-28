@@ -1,9 +1,9 @@
 # 🧊 CubeCloud Skills Bundle
 
-> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 142 skills, 15 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
+> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 144 skills, 16 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
 
-[![Skills](https://img.shields.io/badge/skills-142-2ea44f)](#whats-included)
-[![CLIs](https://img.shields.io/badge/CLIs-15-blue)](#clis-installed)
+[![Skills](https://img.shields.io/badge/skills-144-2ea44f)](#whats-included)
+[![CLIs](https://img.shields.io/badge/CLIs-16-blue)](#clis-installed)
 [![MCP servers](https://img.shields.io/badge/MCP%20servers-11-purple)](#mcp-servers)
 [![Security gate](https://img.shields.io/badge/security%20gate-SkillSpector-green)](#security-model)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4)](#prerequisites)
@@ -21,10 +21,10 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 
 | | Count | What |
 |---|---|---|
-| 🧠 Skills | **142** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, and more |
-| 🔧 CLIs | **15** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo` |
+| 🧠 Skills | **144** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, and more |
+| 🔧 CLIs | **16** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr` |
 | 🔌 MCP servers | **11** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt |
-| 📚 Fork mirrors | **31** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo |
+| 📚 Fork mirrors | **32** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo |
 | 🎨 DESIGN.md files | **74** | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill |
 | 🔒 Security-gated | **yes** | Every skill scanned by SkillSpector before install; 5 skills blocked by design |
 
@@ -59,7 +59,7 @@ graph TB
 
     subgraph L1["LAYER 1 — CLIs + MCP Servers"]
         direction LR
-        CLI["15 CLIs on PATH"] --> MCP["11 MCP servers"]
+        CLI["16 CLIs on PATH"] --> MCP["11 MCP servers"]
         MCP --> VSCODE["VS Code mcp.json"]
     end
 
@@ -185,6 +185,7 @@ Custom implementations maintained in this setup are `agent-reach` and `gstack-re
 | `loop` | npm | Loop engineering CLI front door — `npx @cobusgreyling/loop init|doctor|status|audit|cost`. Scaffolds agent loops (daily triage, PR babysitter, CI sweeper, etc.) with Loop Ready scoring. |
 | `watch-skill` | uv | Video intelligence CLI — `watch-skill watch|ask|search|serve`. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP verification. |
 | `wigolo` | npm | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools. |
+| `ocr` | npm | AI-powered code review CLI — `ocr review|scan|delegate`. Deterministic + agent hybrid architecture (alibaba/open-code-review, Apache-2.0). Battle-tested at Alibaba's scale. |
 
 ### MCP servers
 
@@ -200,6 +201,20 @@ Configured in VS Code User `mcp.json`:
 - **watch-skill** — video analysis, transcription, OCR, THE LOOP verification (`watch-skill serve`)
 - **wigolo** — local-first web search, fetch, crawl, research (`npx wigolo`)
 - **skillopt** — SkillOpt research engine: validation-gated skill optimization via MCP tools `skillopt_list_configs`, `skillopt_train`, `skillopt_eval` (microsoft/SkillOpt, MIT). Shells out to the repo's `scripts/train.py` / `eval_only.py` — requires the SkillOpt fork mirror.
+
+### OpenCodeReview (AI code review)
+
+The bundle includes the **`ocr` CLI** (`@alibaba-group/open-code-review`, Apache-2.0) — a deterministic + agent hybrid code review engine battle-tested at Alibaba's scale. Two skills ship with it:
+
+- **`open-code-review`** — invokes `ocr review` with the right flags, prerequisite checks, and a comment-triage rubric (High/Medium/Low). Requires a configured LLM.
+- **`open-code-review-delegate`** — delegation mode: the host agent drives the review using its own LLM; OCR handles only deterministic file selection and rule resolution. **No OCR-side LLM needed.**
+
+```powershell
+ocr review --audience agent -b "context"           # review working copy
+ocr review --audience agent -b "context" --from main --to feature  # branch range
+ocr review --preview                                # dry-run (no LLM cost)
+ocr delegate preview                                # delegation mode preview
+```
 
 ### SkillOpt-Sleep (nightly self-evolution)
 
@@ -242,7 +257,7 @@ Full verdict history is in [`upstream/SCAN_LOG.md`](upstream/SCAN_LOG.md).
 │   └── SETUP_GUIDE.md          # detailed guide
 ├── bin/                        # 17 audit/fix/install helper scripts
 ├── upstream/                   # governance docs + design-md-library wrapper skill
-└── forks/JZKK720/              # 31 read-only fork mirrors (gitignored, re-cloned)
+└── forks/JZKK720/              # 32 read-only fork mirrors (gitignored, re-cloned)
 ```
 
 ## How to use after setup

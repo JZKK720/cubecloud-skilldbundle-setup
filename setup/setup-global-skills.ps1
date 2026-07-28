@@ -272,7 +272,8 @@ if ($npm) {
     @{pkg="ui-ux-pro-max-cli"; bin="uipro"},
     @{pkg="firecrawl-cli"; bin="firecrawl"},
     @{pkg="@cobusgreyling/loop"; bin="loop"},
-    @{pkg="wigolo"; bin="wigolo"}
+    @{pkg="wigolo"; bin="wigolo"},
+    @{pkg="@alibaba-group/open-code-review"; bin="ocr"}
   )
   foreach ($tool in $npmTools) {
     $pkg = $tool.pkg
@@ -344,6 +345,15 @@ if (-not $SkipForks) {
   $skilloptTarget = Join-Path $dest "SkillOpt"
   if (-not (Test-Path $skilloptTarget)) {
     cmd /c "git clone --depth 1 https://github.com/microsoft/SkillOpt.git `"$skilloptTarget`" >nul 2>nul"
+  }
+  # Non-JZKK720 fork mirror: alibaba/open-code-review (Apache-2.0). The `ocr` CLI
+  # is installed via npm, but the repo ships 2 portable SKILL.md files at
+  # skills/open-code-review/ and skills/open-code-review-delegate/ that the
+  # security-gated install pipeline copies from a local clone. The delegate skill
+  # is LLM-free on the OCR side — the host agent drives the review.
+  $ocrTarget = Join-Path $dest "open-code-review"
+  if (-not (Test-Path $ocrTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/alibaba/open-code-review.git `"$ocrTarget`" >nul 2>nul"
   }
   $forkCount = (Get-ChildItem $dest -Directory).Count
   Write-OK "$forkCount fork repos mirrored"
@@ -548,7 +558,7 @@ if (-not $SkipAudit) {
   }
 
   $cliOk = 0; $cliFail = 0
-  foreach ($c in @("skillspector","skills-ref","specify","agent-reach","graphify","markitdown","gbrain","scrapling","uipro","firecrawl","headroom","skillopt-eval")) {
+  foreach ($c in @("skillspector","skills-ref","specify","agent-reach","graphify","markitdown","gbrain","scrapling","uipro","firecrawl","headroom","skillopt-eval","ocr")) {
     if (Get-Command $c -ErrorAction SilentlyContinue) { $cliOk++ } else { $cliFail++ }
   }
   Write-OK "CLI tools: $cliOk OK, $cliFail missing"
