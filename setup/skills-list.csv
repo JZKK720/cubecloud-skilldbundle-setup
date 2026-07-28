@@ -182,3 +182,14 @@ JZKK720/ECC|backend-patterns|skills/backend-patterns|
 # Fork mirror: ~/dev/forks/JZKK720/open-code-review/
 local/open-code-review|open-code-review||upstream/open-code-review
 local/open-code-review-delegate|open-code-review-delegate||upstream/open-code-review-delegate
+# --- impeccable ports (pbakaus/impeccable, Apache-2.0): 6 pure-prose design methodology skills ---
+# Ported 2026-07-28. Upstream is a full application (CLI + browser extension + live server + hooks).
+# These ports extract only the reference prose docs as standalone methodology skills.
+# All 6 pass SkillSpector (5x 0/100 SAFE, 1x 7/100 SAFE) and skills-ref validate.
+# Source: ~/dev/forks/impeccable/skill/reference/*.md
+local/impeccable-distill|impeccable-distill||upstream/impeccable-distill
+local/impeccable-bolder|impeccable-bolder||upstream/impeccable-bolder
+local/impeccable-delight|impeccable-delight||upstream/impeccable-delight
+local/impeccable-animate|impeccable-animate||upstream/impeccable-animate
+local/impeccable-clarify|impeccable-clarify||upstream/impeccable-clarify
+local/impeccable-onboard|impeccable-onboard||upstream/impeccable-onboard
