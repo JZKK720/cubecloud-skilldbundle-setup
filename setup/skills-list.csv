@@ -30,6 +30,11 @@ local/watch-skill|watch-skill||
 # Upstream: KnockOutEZ/wigolo (AGPL-3.0). MCP via `npx wigolo`.
 # SKILL.md lives at ~/.agents/skills/wigolo/ — not a direct upstream install.
 local/wigolo|wigolo||
+# archify: agent skill for interactive architecture diagrams (workflow, sequence, dataflow, lifecycle).
+# Upstream: tt-a1i/archify (MIT, 7.8k★). Node.js CLI via `node bin/archify.mjs`.
+# SkillSpector: 0/100 LOW/SAFE. skills-ref: Valid. Zero Claude Code coupling.
+# SKILL.md lives at ~/.agents/skills/archify/ — not a direct upstream install.
+local/archify|archify||
 DietrichGebert/ponytail|ponytail||
 Nutlope/hallmark|hallmark||
 Leonxlnx/taste-skill|taste-skill|skills/taste-skill|
