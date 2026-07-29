@@ -1,8 +1,8 @@
 # 🧊 CubeCloud Skills Bundle
 
-> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 144 skills, 16 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
+> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 145 skills, 16 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
 
-[![Skills](https://img.shields.io/badge/skills-144-2ea44f)](#whats-included)
+[![Skills](https://img.shields.io/badge/skills-145-2ea44f)](#whats-included)
 [![CLIs](https://img.shields.io/badge/CLIs-16-blue)](#clis-installed)
 [![MCP servers](https://img.shields.io/badge/MCP%20servers-11-purple)](#mcp-servers)
 [![Security gate](https://img.shields.io/badge/security%20gate-SkillSpector-green)](#security-model)
@@ -21,10 +21,10 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 
 | | Count | What |
 |---|---|---|
-| 🧠 Skills | **144** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, and more |
+| 🧠 Skills | **145** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, archify diagrams, and more |
 | 🔧 CLIs | **16** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr` |
 | 🔌 MCP servers | **11** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt |
-| 📚 Fork mirrors | **32** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo |
+| 📚 Fork mirrors | **33** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo, tt-a1i/archify |
 | 🎨 DESIGN.md files | **74** | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill |
 | 🔒 Security-gated | **yes** | Every skill scanned by SkillSpector before install; 5 skills blocked by design |
 
@@ -46,7 +46,7 @@ graph TB
         EXT["extensions · presets · bundles"]
     end
 
-    subgraph L2["LAYER 2 — Skills (116 core, 26 Azure)"]
+    subgraph L2["LAYER 2 — Skills (117 core, 26 Azure)"]
         direction LR
         METH["superpowers (12)"] --> COPILOT["VS Code Copilot Chat"]
         DSN["design systems (74)"] --> COPILOT
