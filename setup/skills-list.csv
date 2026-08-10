@@ -198,3 +198,46 @@ local/impeccable-delight|impeccable-delight||upstream/impeccable-delight
 local/impeccable-animate|impeccable-animate||upstream/impeccable-animate
 local/impeccable-clarify|impeccable-clarify||upstream/impeccable-clarify
 local/impeccable-onboard|impeccable-onboard||upstream/impeccable-onboard
+# --- compound-engineering-plugin (EveryInc, MIT, 24.2k★): cherry-pick non-review skills ---
+# Copilot is a documented first-class target; zero $ARGUMENTS/mcp__ coupling in skill bodies.
+# 32 skills total; we cherry-pick the planning/execution/compounding/debug/git/autonomous skills.
+# SKIP ce-code-review and ce-resolve-pr-feedback — they duplicate existing bundle review skills
+# (code-review-and-quality, gstack-review, receiving-code-review, sp-request-review, sp-receive-review).
+# SKIP ce-proof (needs Every's hosted API), ce-test-xcode (needs XcodeBuildMCP), ce-riffrec (needs Riffrec).
+# SKIP ce-polish, ce-dogfood (manual-only, browser-based, not model-invoked).
+# Fork mirror: ~/dev/forks/JZKK720/compound-engineering-plugin/
+EveryInc/compound-engineering-plugin|ce-ideate|skills/ce-ideate|
+EveryInc/compound-engineering-plugin|ce-brainstorm|skills/ce-brainstorm|
+EveryInc/compound-engineering-plugin|ce-plan|skills/ce-plan|
+EveryInc/compound-engineering-plugin|ce-work|skills/ce-work|
+EveryInc/compound-engineering-plugin|ce-compound|skills/ce-compound|
+EveryInc/compound-engineering-plugin|ce-strategy|skills/ce-strategy|
+EveryInc/compound-engineering-plugin|ce-product-pulse|skills/ce-product-pulse|
+EveryInc/compound-engineering-plugin|ce-sweep|skills/ce-sweep|
+EveryInc/compound-engineering-plugin|ce-compound-refresh|skills/ce-compound-refresh|
+EveryInc/compound-engineering-plugin|ce-pov|skills/ce-pov|
+EveryInc/compound-engineering-plugin|ce-explain|skills/ce-explain|
+EveryInc/compound-engineering-plugin|ce-debug|skills/ce-debug|
+EveryInc/compound-engineering-plugin|ce-simplify-code|skills/ce-simplify-code|
+EveryInc/compound-engineering-plugin|ce-optimize|skills/ce-optimize|
+EveryInc/compound-engineering-plugin|ce-doc-review|skills/ce-doc-review|
+EveryInc/compound-engineering-plugin|ce-commit|skills/ce-commit|
+EveryInc/compound-engineering-plugin|ce-commit-push-pr|skills/ce-commit-push-pr|
+EveryInc/compound-engineering-plugin|ce-babysit-pr|skills/ce-babysit-pr|
+EveryInc/compound-engineering-plugin|ce-worktree|skills/ce-worktree|
+EveryInc/compound-engineering-plugin|ce-handoff|skills/ce-handoff|
+EveryInc/compound-engineering-plugin|ce-promote|skills/ce-promote|
+EveryInc/compound-engineering-plugin|ce-setup|skills/ce-setup|
+EveryInc/compound-engineering-plugin|ce-retune|skills/ce-retune|
+EveryInc/compound-engineering-plugin|ce-test-browser|skills/ce-test-browser|
+EveryInc/compound-engineering-plugin|lfg|skills/lfg|
+# --- awesome-llm-apps (Shubhamsaboo, Apache-2.0): 4 deterministic local-tool skills ---
+# Zero Claude-Code coupling; Copilot explicitly supported. Each ships stdlib-only
+# Python scripts with CI-eval-gated tests. Apache-2.0.
+# SKIP self-improving-agent-skills (standalone FastAPI+Next.js web app, not a drop-in skill).
+# SKIP advisor-orchestrator-worker, thinking-out-loud (lighter value, can add later).
+# Fork mirror: ~/dev/forks/JZKK720/awesome-llm-apps/
+Shubhamsaboo/awesome-llm-apps|commit-archaeologist|agent_skills/commit-archaeologist|
+Shubhamsaboo/awesome-llm-apps|scope-creep-detector|agent_skills/scope-creep-detector|
+Shubhamsaboo/awesome-llm-apps|dependency-doctor|agent_skills/dependency-doctor|
+Shubhamsaboo/awesome-llm-apps|project-graveyard|agent_skills/project-graveyard|

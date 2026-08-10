@@ -30,25 +30,43 @@
 .PARAMETER SkipAudit
   Skip the final audit pass.
 
+.PARAMETER IncludeAdditionalEditorProfiles
+  Also configure MCP + Copilot utility model pins for Code - Insiders, Cursor, and VSCodium
+  user profiles in addition to VS Code Stable.
+
 .EXAMPLE
   .\setup-global-skills.ps1
   .\setup-global-skills.ps1 -SkipForks
   .\setup-global-skills.ps1 -SkipForks -SkipAudit
+  .\setup-global-skills.ps1 -IncludeAdditionalEditorProfiles
 #>
 
 [CmdletBinding()]
 param(
   [switch]$SkipForks,
-  [switch]$SkipAudit
+  [switch]$SkipAudit,
+  [switch]$IncludeAdditionalEditorProfiles
 )
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
 function Write-Step($msg) { Write-Host "`n=== $msg ===" -ForegroundColor Cyan }
-function Write-OK($msg)   { Write-Host "  OK: $msg" -ForegroundColor Green }
+function Write-OK($msg) { Write-Host "  OK: $msg" -ForegroundColor Green }
 function Write-Warn($msg) { Write-Host "  WARN: $msg" -ForegroundColor Yellow }
 function Write-Fail($msg) { Write-Host "  FAIL: $msg" -ForegroundColor Red }
+
+$editorUserDirs = @(
+  "$env:APPDATA\Code\User"
+)
+if ($IncludeAdditionalEditorProfiles) {
+  $editorUserDirs += @(
+    "$env:APPDATA\Code - Insiders\User",
+    "$env:APPDATA\Cursor\User",
+    "$env:APPDATA\VSCodium\User"
+  )
+}
+$editorUserDirs = $editorUserDirs | Select-Object -Unique
 
 function Set-JsoncSetting([string]$Path, [hashtable]$Values) {
   $content = if (Test-Path $Path) { Get-Content $Path -Raw } else { "{`r`n}`r`n" }
@@ -61,7 +79,8 @@ function Set-JsoncSetting([string]$Path, [hashtable]$Values) {
 
     if ($content -match $pattern) {
       $content = [regex]::new($pattern).Replace($content, $replacementLine, 1)
-    } else {
+    }
+    else {
       $null = $missingLines.Add($replacementLine)
     }
   }
@@ -75,7 +94,8 @@ function Set-JsoncSetting([string]$Path, [hashtable]$Values) {
         $content += "`r`n"
       }
       $content += $insertBlock + "`r`n}`r`n"
-    } else {
+    }
+    else {
       if (-not $content.EndsWith("`r`n") -and -not $content.EndsWith("`n")) {
         $content += "`r`n"
       }
@@ -124,7 +144,7 @@ catch {
 }
 
 # Refresh PATH for this session
-$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH","User")
+$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH", "User")
 $env:PYTHONUTF8 = "1"
 
 # ============================================================
@@ -142,7 +162,8 @@ foreach ($dir in $requiredDirs) {
   if ($userPath -notlike "*$dir*") {
     $userPath = "$dir;$userPath"
     Write-OK "Added $dir to user PATH"
-  } else {
+  }
+  else {
     Write-OK "$dir already on PATH"
   }
 }
@@ -152,7 +173,8 @@ $utf8 = [System.Environment]::GetEnvironmentVariable("PYTHONUTF8", "User")
 if ($utf8 -ne "1") {
   [System.Environment]::SetEnvironmentVariable("PYTHONUTF8", "1", "User")
   Write-OK "Set PYTHONUTF8=1 for user"
-} else {
+}
+else {
   Write-OK "PYTHONUTF8 already set"
 }
 
@@ -215,7 +237,8 @@ $helperDst = "$env:USERPROFILE\dev\bin\install-skill.ps1"
 if (Test-Path $helperSrc) {
   Copy-Item $helperSrc $helperDst -Force
   Write-OK "install-skill.ps1 copied to ~/dev/bin/"
-} else {
+}
+else {
   Write-Warn "install-skill.ps1 not found in $PSScriptRoot - you need to copy it manually"
 }
 
@@ -235,28 +258,29 @@ try {
   $null = Add-MpPreference -ExclusionPath $sgPath -ErrorAction Stop
   $null = Add-MpPreference -ExclusionProcess "sg.exe" -ErrorAction Stop
   Write-OK "Defender exclusion for ast-grep-cli (sg.exe) added"
-} catch {
+}
+catch {
   Write-Warn "Could not add Defender exclusion (not admin?). headroom install may fail."
   Write-Warn "  Fix: run bin/add-defender-exclusion-ast-grep.ps1 in an elevated PowerShell, then re-run this script."
 }
 
 $pyTools = @(
   # specify-cli installs as 'specify' binary (not 'specify-cli')
-  @{name="specify-cli"; pkg="specify-cli"},
+  @{name = "specify-cli"; pkg = "specify-cli" },
   # skillopt (microsoft/SkillOpt, MIT) ships 3 console scripts: skillopt-train,
   # skillopt-eval, skillopt-sleep. There is NO binary named 'skillopt', so probe
   # skillopt-eval for the skip-if-present check (matches the audit scripts).
-  @{name="skillopt-eval"; pkg="skillopt"},
-  @{name="agent-reach"; pkg="git+https://github.com/Panniantong/Agent-Reach.git"},
+  @{name = "skillopt-eval"; pkg = "skillopt" },
+  @{name = "agent-reach"; pkg = "git+https://github.com/Panniantong/Agent-Reach.git" },
   # graphifyy[mcp] installs as 'graphify' binary (not 'graphifyy')
-  @{name="graphifyy[mcp]"; pkg="graphifyy[mcp]"},
-  @{name="markitdown[all]"; pkg="markitdown[all]"},
-  @{name="scrapling[ai]"; pkg="scrapling[ai]"},
-  @{name="headroom-ai[proxy]"; pkg="headroom-ai[proxy]"},
-  @{name="watch-skill"; pkg="git+https://github.com/oxbshw/watch-skill.git"}
+  @{name = "graphifyy[mcp]"; pkg = "graphifyy[mcp]" },
+  @{name = "markitdown[all]"; pkg = "markitdown[all]" },
+  @{name = "scrapling[ai]"; pkg = "scrapling[ai]" },
+  @{name = "headroom-ai[proxy]"; pkg = "headroom-ai[proxy]" },
+  @{name = "watch-skill"; pkg = "git+https://github.com/oxbshw/watch-skill.git" }
 )
 foreach ($t in $pyTools) {
-  $binName = $t.name -replace '\[.*\]',''
+  $binName = $t.name -replace '\[.*\]', ''
   # headroom-ai installs as 'headroom' binary
   if ($binName -eq 'headroom-ai') { $binName = 'headroom' }
   # specify-cli installs as 'specify' binary
@@ -275,11 +299,11 @@ $npm = "C:\Program Files\nodejs\npm.cmd"
 if (-not (Test-Path $npm)) { $npm = (Get-Command npm -ErrorAction SilentlyContinue).Source }
 if ($npm) {
   $npmTools = @(
-    @{pkg="ui-ux-pro-max-cli"; bin="uipro"},
-    @{pkg="firecrawl-cli"; bin="firecrawl"},
-    @{pkg="@cobusgreyling/loop"; bin="loop"},
-    @{pkg="wigolo"; bin="wigolo"},
-    @{pkg="@alibaba-group/open-code-review"; bin="ocr"}
+    @{pkg = "ui-ux-pro-max-cli"; bin = "uipro" },
+    @{pkg = "firecrawl-cli"; bin = "firecrawl" },
+    @{pkg = "@cobusgreyling/loop"; bin = "loop" },
+    @{pkg = "wigolo"; bin = "wigolo" },
+    @{pkg = "@alibaba-group/open-code-review"; bin = "ocr" }
   )
   foreach ($tool in $npmTools) {
     $pkg = $tool.pkg
@@ -294,7 +318,7 @@ if ($npm) {
 
 # bun tools
 foreach ($pkg in @("github:garrytan/gbrain")) {
-  $binName = ($pkg -split ':')[-1] -replace 'github:',''
+  $binName = ($pkg -split ':')[-1] -replace 'github:', ''
   $already = Get-Command $binName -ErrorAction SilentlyContinue
   if ($already) { Write-OK "$binName already installed"; continue }
   Write-Host "  Installing $pkg..." -NoNewline
@@ -324,11 +348,11 @@ if ($gb) {
 if (-not $SkipForks) {
   Write-Step "Phase 3: Fork mirrors (JZKK720)"
   $forks = @(
-    "Gskills","caveman","last30days-skill","EverOS","agentskills",
-    "markitdown","firecrawl","ponytail","improve","headroom",
-    "taste-skill","ECC","gstack","gbrain","agent-skills",
-    "spec-kit","superpowers","llm_wiki","hallmark","Scrapling",
-    "graphify","oz-skills"
+    "Gskills", "caveman", "last30days-skill", "EverOS", "agentskills",
+    "markitdown", "firecrawl", "ponytail", "improve", "headroom",
+    "taste-skill", "ECC", "gstack", "gbrain", "agent-skills",
+    "spec-kit", "superpowers", "llm_wiki", "hallmark", "Scrapling",
+    "graphify", "oz-skills"
   )
   $dest = "$env:USERPROFILE\dev\forks\JZKK720"
   foreach ($f in $forks) {
@@ -361,6 +385,20 @@ if (-not $SkipForks) {
   if (-not (Test-Path $ocrTarget)) {
     cmd /c "git clone --depth 1 https://github.com/alibaba/open-code-review.git `"$ocrTarget`" >nul 2>nul"
   }
+  # Non-JZKK720 fork mirror: EveryInc/compound-engineering-plugin (MIT, 24.2k★).
+  # 25 cherry-picked skills (non-review) added to skills-list.csv. Copilot is a
+  # first-class target; zero $ARGUMENTS/mcp__ coupling in skill bodies.
+  $ceTarget = Join-Path $dest "compound-engineering-plugin"
+  if (-not (Test-Path $ceTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/EveryInc/compound-engineering-plugin.git `"$ceTarget`" >nul 2>nul"
+  }
+  # Non-JZKK720 fork mirror: Shubhamsaboo/awesome-llm-apps (Apache-2.0).
+  # 4 deterministic local-tool skills added to skills-list.csv. Zero Claude-Code
+  # coupling; each ships stdlib-only Python scripts with CI-eval-gated tests.
+  $allaTarget = Join-Path $dest "awesome-llm-apps"
+  if (-not (Test-Path $allaTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/Shubhamsaboo/awesome-llm-apps.git `"$allaTarget`" >nul 2>nul"
+  }
   $forkCount = (Get-ChildItem $dest -Directory).Count
   Write-OK "$forkCount fork repos mirrored"
 }
@@ -387,8 +425,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
 # (the helper warns if missing; this prevents that warning on a fresh machine).
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\dev\upstream" | Out-Null
 if (-not (Test-Path "$env:USERPROFILE\dev\upstream\SCAN_LOG.md")) {
-  @("# SkillSpector Scan Log","","| Date | Repo | Skill | Verdict | Status | Notes |","|---|---|---|---|---|---|") |
-    Out-File "$env:USERPROFILE\dev\upstream\SCAN_LOG.md" -Encoding UTF8
+  @("# SkillSpector Scan Log", "", "| Date | Repo | Skill | Verdict | Status | Notes |", "|---|---|---|---|---|---|") |
+  Out-File "$env:USERPROFILE\dev\upstream\SCAN_LOG.md" -Encoding UTF8
 }
 $lines = Get-Content $skillsCsv | Where-Object { $_ -and -not $_.StartsWith("#") }
 $installed = 0; $blocked = 0; $skipped = 0
@@ -402,7 +440,7 @@ foreach ($line in $lines) {
 
   # Skip if already installed
   $destDir = if ($disabled) { "$env:USERPROFILE\.agents\skills._disabled\$name" }
-             else { "$env:USERPROFILE\.agents\skills\$name" }
+  else { "$env:USERPROFILE\.agents\skills\$name" }
   if (Test-Path $destDir) { $skipped++; continue }
 
   Write-Host "  $name..." -NoNewline
@@ -418,9 +456,11 @@ foreach ($line in $lines) {
   $out = cmd /c "powershell -NoProfile -ExecutionPolicy Bypass -File `"$helper`" $argLine 2>&1" | Out-String
   if ($out -match "complete:.*active" -or $out -match "complete:.*DISABLED") {
     Write-Host " OK"; $installed++
-  } elseif ($out -match "BLOCK|FAIL|Die") {
+  }
+  elseif ($out -match "BLOCK|FAIL|Die") {
     Write-Host " BLOCKED"; $blocked++
-  } else {
+  }
+  else {
     Write-Host " ?"; $skipped++
   }
 }
@@ -432,30 +472,39 @@ Write-OK "Installed: $installed, Blocked: $blocked, Skipped (already present): $
 Write-Step "Phase 5: MCP server config"
 
 $mcpTemplate = Join-Path $PSScriptRoot "mcp.json.template"
-$mcpDest = "$env:APPDATA\Code\User\mcp.json"
+$primaryMcpDest = "$env:APPDATA\Code\User\mcp.json"
 if (Test-Path $mcpTemplate) {
-  # Preserve existing servers if mcp.json already exists
-  if (Test-Path $mcpDest) {
-    try {
-      $existing = Get-Content $mcpDest -Raw | ConvertFrom-Json
-      $template = Get-Content $mcpTemplate -Raw | ConvertFrom-Json
-      # Merge: add template servers that don't exist
-      foreach ($prop in $template.servers.PSObject.Properties) {
-        if (-not $existing.servers.PSObject.Properties[$prop.Name]) {
-          $existing.servers | Add-Member -MemberType NoteProperty -Name $prop.Name -Value $prop.Value
+  foreach ($editorUserDir in $editorUserDirs) {
+    New-Item -ItemType Directory -Force -Path $editorUserDir | Out-Null
+    $profileName = Split-Path (Split-Path $editorUserDir -Parent) -Leaf
+    $mcpDest = Join-Path $editorUserDir "mcp.json"
+
+    # Preserve existing servers if mcp.json already exists
+    if (Test-Path $mcpDest) {
+      try {
+        $existing = Get-Content $mcpDest -Raw | ConvertFrom-Json
+        $template = Get-Content $mcpTemplate -Raw | ConvertFrom-Json
+        # Merge: add template servers that don't exist
+        foreach ($prop in $template.servers.PSObject.Properties) {
+          if (-not $existing.servers.PSObject.Properties[$prop.Name]) {
+            $existing.servers | Add-Member -MemberType NoteProperty -Name $prop.Name -Value $prop.Value
+          }
         }
+        $existing | ConvertTo-Json -Depth 10 | Out-File $mcpDest -Encoding UTF8
+        Write-OK "[$profileName] Merged MCP servers into existing mcp.json"
       }
-      $existing | ConvertTo-Json -Depth 10 | Out-File $mcpDest -Encoding UTF8
-      Write-OK "Merged MCP servers into existing mcp.json"
-    } catch {
-      Copy-Item $mcpTemplate $mcpDest -Force
-      Write-OK "Replaced mcp.json with template (existing was invalid)"
+      catch {
+        Copy-Item $mcpTemplate $mcpDest -Force
+        Write-OK "[$profileName] Replaced mcp.json with template (existing was invalid)"
+      }
     }
-  } else {
-    Copy-Item $mcpTemplate $mcpDest -Force
-    Write-OK "Created mcp.json from template"
+    else {
+      Copy-Item $mcpTemplate $mcpDest -Force
+      Write-OK "[$profileName] Created mcp.json from template"
+    }
   }
-} else {
+}
+else {
   Write-Warn "mcp.json.template not found - copy manually"
 }
 
@@ -464,13 +513,17 @@ if (Test-Path $mcpTemplate) {
 # ============================================================
 Write-Step "Phase 5b: Copilot utility model pins"
 
-$copilotSettingsPath = "$env:APPDATA\Code\User\settings.json"
-Set-JsoncSetting -Path $copilotSettingsPath -Values @{
-  "chat.utilityModel" = "ollama-models/gemma4:26b-a4b-it-qat"
-  "chat.utilitySmallModel" = "ollama-models/ornith:9b-q8_0"
-  "chat.byokUtilityModelDefault" = "mainAgent"
+foreach ($editorUserDir in $editorUserDirs) {
+  New-Item -ItemType Directory -Force -Path $editorUserDir | Out-Null
+  $profileName = Split-Path (Split-Path $editorUserDir -Parent) -Leaf
+  $copilotSettingsPath = Join-Path $editorUserDir "settings.json"
+  Set-JsoncSetting -Path $copilotSettingsPath -Values @{
+    "chat.utilityModel"            = "ollama-models/gemma4:26b-a4b-it-qat"
+    "chat.utilitySmallModel"       = "ollama-models/ornith:9b-q8_0"
+    "chat.byokUtilityModelDefault" = "mainAgent"
+  }
+  Write-OK "[$profileName] Pinned VS Code Copilot utility models in user settings"
 }
-Write-OK "Pinned VS Code Copilot utility models in user settings"
 
 # ============================================================
 # PHASE 5c: SKILLOPT-SLEEP NIGHTLY SCHEDULE
@@ -489,11 +542,13 @@ if ($sleepBin) {
   $sleepOut = cmd /c "skillopt-sleep schedule --project `"$sleepProject`" --backend mock --hour 3 --minute 17 2>&1" | Out-String
   if ($LASTEXITCODE -eq 0 -and $sleepOut -match "Scheduled nightly") {
     Write-OK "SkillOpt-Sleep scheduled nightly at 03:17 for $sleepProject (backend=mock)"
-  } else {
+  }
+  else {
     Write-Warn "skillopt-sleep schedule did not confirm success. Output:"
     Write-Host $sleepOut
   }
-} else {
+}
+else {
   Write-Warn "skillopt-sleep CLI not found; skipping nightly schedule. Re-run setup after install to enable."
 }
 
@@ -528,7 +583,8 @@ if (-not (Test-Path "$env:USERPROFILE\dev\upstream\SCAN_LOG.md")) {
     "|---|---|---|---|---|---|"
   ) | Out-File "$env:USERPROFILE\dev\upstream\SCAN_LOG.md" -Encoding UTF8
   Write-OK "SCAN_LOG.md created"
-} else {
+}
+else {
   Write-OK "SCAN_LOG.md already exists"
 }
 
@@ -548,7 +604,7 @@ if (-not $SkipAudit) {
   Write-OK "Total skills: $skillCount"
 
   $mcpValid = $false
-  try { $null = Get-Content $mcpDest -Raw | ConvertFrom-Json; $mcpValid = $true } catch {}
+  try { $null = Get-Content $primaryMcpDest -Raw | ConvertFrom-Json; $mcpValid = $true } catch {}
   Write-OK "mcp.json valid: $mcpValid"
 
   try {
@@ -559,12 +615,37 @@ if (-not $SkipAudit) {
     Write-OK "Copilot utility model pinned: $utilityPinned"
     Write-OK "Copilot small utility model pinned: $utilitySmallPinned"
     Write-OK "Copilot BYOK fallback pinned: $byokFallbackPinned"
-  } catch {
+  }
+  catch {
     Write-Warn "Copilot user settings unavailable for audit"
   }
 
+  if ($IncludeAdditionalEditorProfiles) {
+    foreach ($editorUserDir in $editorUserDirs | Where-Object { $_ -ne "$env:APPDATA\Code\User" }) {
+      $profileName = Split-Path (Split-Path $editorUserDir -Parent) -Leaf
+      $profileMcpPath = Join-Path $editorUserDir "mcp.json"
+      $profileSettingsPath = Join-Path $editorUserDir "settings.json"
+      $profileMcpValid = $false
+      try { $null = Get-Content $profileMcpPath -Raw | ConvertFrom-Json; $profileMcpValid = $true } catch {}
+      Write-OK "[$profileName] mcp.json valid: $profileMcpValid"
+
+      try {
+        $profileSettings = Get-Content $profileSettingsPath -Raw
+        $profileUtilityPinned = $profileSettings -match '"chat\.utilityModel"\s*:\s*"ollama-models/gemma4:26b-a4b-it-qat"'
+        $profileUtilitySmallPinned = $profileSettings -match '"chat\.utilitySmallModel"\s*:\s*"ollama-models/ornith:9b-q8_0"'
+        $profileByokFallbackPinned = $profileSettings -match '"chat\.byokUtilityModelDefault"\s*:\s*"mainAgent"'
+        Write-OK "[$profileName] utility model pinned: $profileUtilityPinned"
+        Write-OK "[$profileName] utility small model pinned: $profileUtilitySmallPinned"
+        Write-OK "[$profileName] BYOK fallback pinned: $profileByokFallbackPinned"
+      }
+      catch {
+        Write-Warn "[$profileName] user settings unavailable for audit"
+      }
+    }
+  }
+
   $cliOk = 0; $cliFail = 0
-  foreach ($c in @("skillspector","skills-ref","specify","agent-reach","graphify","markitdown","gbrain","scrapling","uipro","firecrawl","headroom","skillopt-eval","ocr")) {
+  foreach ($c in @("skillspector", "skills-ref", "specify", "agent-reach", "graphify", "markitdown", "gbrain", "scrapling", "uipro", "firecrawl", "headroom", "skillopt-eval", "ocr")) {
     if (Get-Command $c -ErrorAction SilentlyContinue) { $cliOk++ } else { $cliFail++ }
   }
   Write-OK "CLI tools: $cliOk OK, $cliFail missing"
@@ -585,8 +666,15 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host "  1. Restart VS Code (or reload window: Ctrl+Shift+P -> Developer: Reload Window)"
-Write-Host "  2. In Copilot Chat, type # to see MCP tools"
-Write-Host "  3. Try: 'use the improve skill to audit this codebase'"
+if ($IncludeAdditionalEditorProfiles) {
+  Write-Host "  2. Restart other editor windows too (Code - Insiders/Cursor/VSCodium)"
+  Write-Host "  3. In Copilot Chat, type # to see MCP tools"
+  Write-Host "  4. Try: 'use the improve skill to audit this codebase'"
+}
+else {
+  Write-Host "  2. In Copilot Chat, type # to see MCP tools"
+  Write-Host "  3. Try: 'use the improve skill to audit this codebase'"
+}
 Write-Host ""
 Write-Host "Files created:"
 Write-Host "  ~/.agents/skills/          - $skillCount skills (VS Code Copilot discovery)"

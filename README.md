@@ -19,14 +19,14 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 
 ## What you get
 
-| | Count | What |
-|---|---|---|
-| 🧠 Skills | **145** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, archify diagrams, and more |
-| 🔧 CLIs | **16** | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr` |
-| 🔌 MCP servers | **11** | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt |
-| 📚 Fork mirrors | **33** | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo, tt-a1i/archify |
-| 🎨 DESIGN.md files | **74** | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill |
-| 🔒 Security-gated | **yes** | Every skill scanned by SkillSpector before install; 5 skills blocked by design |
+|                    | Count   | What                                                                                                                                                                                                                                                                                         |
+| ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🧠 Skills          | **145** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, archify diagrams, and more                                                                                                     |
+| 🔧 CLIs            | **16**  | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr`                                                                                  |
+| 🔌 MCP servers     | **11**  | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt                                                                                                                                |
+| 📚 Fork mirrors    | **35**  | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, EveryInc/compound-engineering-plugin, Shubhamsaboo/awesome-llm-apps, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo, tt-a1i/archify |
+| 🎨 DESIGN.md files | **74**  | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill                                                                                                                                                                   |
+| 🔒 Security-gated  | **yes** | Every skill scanned by SkillSpector before install; 5 skills blocked by design                                                                                                                                                                                                               |
 
 ## Architecture
 
@@ -128,6 +128,7 @@ ai-mlstudio · airunway-aks-setup · appinsights-instrumentation · azure-ai · 
 These Azure/Foundry entries are standard extension-provided skills, not custom bundle ports.
 
 **Crafted individual skills:**
+
 - **self-learning** — capture hard-won workflows as reusable skills
 - **improve** — audit a codebase into prioritized implementation plans
 - **loopy** — discover, run, and publish repeatable agent loops
@@ -148,48 +149,51 @@ These Azure/Foundry entries are standard extension-provided skills, not custom b
 Custom implementations maintained in this setup are `agent-reach` and `gstack-review`.
 
 **Hand-ported:**
+
 - **gstack-review** — pre-landing PR review with structural-issue checklist + 8 specialist lenses (security, testing, maintainability, performance, data-migration, api-contract, red-team). Adapted from [garrytan/gstack](https://github.com/garrytan/gstack) (MIT).
 - **design-md-library** — indexes the 74 DESIGN.md files in the awesome-design-md fork mirror so agents can self-serve "make it look like Stripe" requests
 - **idea-to-design** — clean port of obra/superpowers `brainstorming` (upstream blocked by SkillSpector for tool parameter abuse in `stop-server.sh`). Methodology only: collaborative design dialogue, hard gate before implementation, spec self-review, user review gate. No browser server, no scripts.
 - **webapp-testing** — clean port of JZKK720/oz-skills `webapp-testing` (upstream blocked by SkillSpector for `shell=True` tool parameter abuse in `scripts/with_server.py`). Methodology only: reconnaissance-then-action pattern, static vs dynamic decision tree. No bundled scripts; agent writes native Playwright or uses browser MCP tools.
 
 **Disabled by default:**
+
 - **caveman** — token compression, opt-in only
 
 **Blocked by SkillSpector (not installed — by design):**
 
-| Skill | Reason | Clean port? |
-|---|---|---|
-| brainstorming | Tool parameter abuse in `stop-server.sh` | **Yes** → `idea-to-design` |
-| last30days | Info stealer (reads browser cookies) | No — use `agent-reach` |
-| ui-ux-pro-max | Prompt extraction + unsafe defaults | No — use `hallmark` + `taste-skill` |
-| anysearch | Vulnerable `requests==2.20` (8 CVEs) | No |
+| Skill                      | Reason                                                                        | Clean port?                             |
+| -------------------------- | ----------------------------------------------------------------------------- | --------------------------------------- |
+| brainstorming              | Tool parameter abuse in `stop-server.sh`                                      | **Yes** → `idea-to-design`              |
+| last30days                 | Info stealer (reads browser cookies)                                          | No — use `agent-reach`                  |
+| ui-ux-pro-max              | Prompt extraction + unsafe defaults                                           | No — use `hallmark` + `taste-skill`     |
+| anysearch                  | Vulnerable `requests==2.20` (8 CVEs)                                          | No                                      |
 | webapp-testing (oz-skills) | HIGH TM1 — tool parameter abuse (`shell=True` in `scripts/with_server.py:69`) | **Yes** → `webapp-testing` (clean port) |
 
 ### CLIs installed
 
-| Tool | Source | Purpose |
-|---|---|---|
-| `skillspector` | uv | Security scanner — hard gate for every skill install |
-| `skills-ref` | uv | Spec validator (advisory) |
-| `specify` | uv | Spec-Driven Development CLI — `specify init` bootstraps a project with 10 Copilot-native `.agent.md` workflow commands (specify → plan → tasks → implement → converge), a 4-layer template resolution stack, and community extensions/presets/bundles. Pairs with the `spec-driven-development` skill. |
-| `skillopt-eval` | uv | Skill evaluation harness |
-| `agent-reach` | uv | 15-platform research access |
-| `graphify` | uv | Folder → knowledge graph |
-| `markitdown` | uv | Convert anything to Markdown |
-| `scrapling` | uv | Stealthy web scraping |
-| `uipro` | npm | UI/UX workflow CLI |
-| `firecrawl` | npm | Firecrawl API CLI |
-| `gbrain` | bun | Persistent agent memory |
-| `headroom` | uv | Context compression layer for AI agents (60-95% fewer tokens); MCP server exposes `headroom_compress`, `headroom_retrieve`, `headroom_stats`. Requires Defender exclusion for `ast-grep-cli` — see [Platform limitations](#platform-limitations-windows). |
-| `loop` | npm | Loop engineering CLI front door — `npx @cobusgreyling/loop init|doctor|status|audit|cost`. Scaffolds agent loops (daily triage, PR babysitter, CI sweeper, etc.) with Loop Ready scoring. |
-| `watch-skill` | uv | Video intelligence CLI — `watch-skill watch|ask|search|serve`. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP verification. |
-| `wigolo` | npm | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools. |
-| `ocr` | npm | AI-powered code review CLI — `ocr review|scan|delegate`. Deterministic + agent hybrid architecture (alibaba/open-code-review, Apache-2.0). Battle-tested at Alibaba's scale. |
+| Tool            | Source | Purpose                                                                                                                                                                                                                                                                                                |
+| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `skillspector`  | uv     | Security scanner — hard gate for every skill install                                                                                                                                                                                                                                                   |
+| `skills-ref`    | uv     | Spec validator (advisory)                                                                                                                                                                                                                                                                              |
+| `specify`       | uv     | Spec-Driven Development CLI — `specify init` bootstraps a project with 10 Copilot-native `.agent.md` workflow commands (specify → plan → tasks → implement → converge), a 4-layer template resolution stack, and community extensions/presets/bundles. Pairs with the `spec-driven-development` skill. |
+| `skillopt-eval` | uv     | Skill evaluation harness                                                                                                                                                                                                                                                                               |
+| `agent-reach`   | uv     | 15-platform research access                                                                                                                                                                                                                                                                            |
+| `graphify`      | uv     | Folder → knowledge graph                                                                                                                                                                                                                                                                               |
+| `markitdown`    | uv     | Convert anything to Markdown                                                                                                                                                                                                                                                                           |
+| `scrapling`     | uv     | Stealthy web scraping                                                                                                                                                                                                                                                                                  |
+| `uipro`         | npm    | UI/UX workflow CLI                                                                                                                                                                                                                                                                                     |
+| `firecrawl`     | npm    | Firecrawl API CLI                                                                                                                                                                                                                                                                                      |
+| `gbrain`        | bun    | Persistent agent memory                                                                                                                                                                                                                                                                                |
+| `headroom`      | uv     | Context compression layer for AI agents (60-95% fewer tokens); MCP server exposes `headroom_compress`, `headroom_retrieve`, `headroom_stats`. Requires Defender exclusion for `ast-grep-cli` — see [Platform limitations](#platform-limitations-windows).                                              |
+| `loop`          | npm    | Loop engineering CLI front door — `npx @cobusgreyling/loop init                                                                                                                                                                                                                                        | doctor | status                                                                                                                         | audit                                                                                   | cost`. Scaffolds agent loops (daily triage, PR babysitter, CI sweeper, etc.) with Loop Ready scoring. |
+| `watch-skill`   | uv     | Video intelligence CLI — `watch-skill watch                                                                                                                                                                                                                                                            | ask    | search                                                                                                                         | serve`. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP verification. |
+| `wigolo`        | npm    | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools.                                                                                                                                                              |
+| `ocr`           | npm    | AI-powered code review CLI — `ocr review                                                                                                                                                                                                                                                               | scan   | delegate`. Deterministic + agent hybrid architecture (alibaba/open-code-review, Apache-2.0). Battle-tested at Alibaba's scale. |
 
 ### MCP servers
 
 Configured in VS Code User `mcp.json`:
+
 - **markitdown** — convert anything to Markdown
 - **skillspector** — skill security scanning
 - **firecrawl** — web scraping/crawling
@@ -252,28 +256,28 @@ Full verdict history is in [`upstream/SCAN_LOG.md`](upstream/SCAN_LOG.md).
 ├── setup/                      # the one-command installer + config
 │   ├── setup-global-skills.ps1 # master installer
 │   ├── install-skill.ps1       # security-gated skill install helper
-│   ├── skills-list.csv         # manifest of 111 entries (110 active + 1 disabled)
+│   ├── skills-list.csv         # manifest of 145 entries (144 active + 1 disabled)
 │   ├── mcp.json.template       # 11 MCP server config
 │   └── SETUP_GUIDE.md          # detailed guide
 ├── bin/                        # 17 audit/fix/install helper scripts
 ├── upstream/                   # governance docs + design-md-library wrapper skill
-└── forks/JZKK720/              # 32 read-only fork mirrors (gitignored, re-cloned)
+└── forks/JZKK720/              # 34 read-only fork mirrors (gitignored, re-cloned)
 ```
 
 ## How to use after setup
 
 In Copilot Chat, try:
 
-- *"use the **improve** skill to audit this codebase"*
-- *"use **systematic-debugging** to investigate this error"*
-- *"use the **design-md-library** to build me a page that looks like Stripe"*
-- *"use **gstack-review** to review my PR"*
-- *"use **agent-reach** to research what people are saying about X on Reddit"*
-- *"use `specify init my-app --integration copilot` to scaffold a new SDD project"*
-- *"then `/speckit.specify Build a photo organizer with album grouping and drag-and-drop`"*
-- *"use **loop-engineering** to set up automated daily triage on this repo"*
-- *"use **watch-skill** to analyze this meeting recording"*
-- *"use **wigolo** to research what's new in React 19"*
+- _"use the **improve** skill to audit this codebase"_
+- _"use **systematic-debugging** to investigate this error"_
+- _"use the **design-md-library** to build me a page that looks like Stripe"_
+- _"use **gstack-review** to review my PR"_
+- _"use **agent-reach** to research what people are saying about X on Reddit"_
+- _"use `specify init my-app --integration copilot` to scaffold a new SDD project"_
+- _"then `/speckit.specify Build a photo organizer with album grouping and drag-and-drop`"_
+- _"use **loop-engineering** to set up automated daily triage on this repo"_
+- _"use **watch-skill** to analyze this meeting recording"_
+- _"use **wigolo** to research what's new in React 19"_
 
 ## To update later
 
@@ -303,10 +307,10 @@ cd ~/dev/bin
 
 ## Platform limitations (Windows)
 
-| Tool | Issue | Workaround |
-|---|---|---|
-| EverOS | `import fcntl` (Unix-only) | Not installed. `gbrain` MCP used instead. |
+| Tool     | Issue                                                                      | Workaround                                                                                                                                                  |
+| -------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| EverOS   | `import fcntl` (Unix-only)                                                 | Not installed. `gbrain` MCP used instead.                                                                                                                   |
 | headroom | Windows Defender blocks `ast-grep-cli.exe` (false positive on Rust binary) | Run `bin/add-defender-exclusion-ast-grep.ps1` in an elevated PowerShell, then `uv tool install "headroom-ai[proxy]"`. Exclusion is scoped to ast-grep only. |
-| recall | Needs Claude Code hooks | Claude Code only; not for VS Code Copilot. |
+| recall   | Needs Claude Code hooks                                                    | Claude Code only; not for VS Code Copilot.                                                                                                                  |
 
 ## License
