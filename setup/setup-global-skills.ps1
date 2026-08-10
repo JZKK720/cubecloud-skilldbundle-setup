@@ -444,10 +444,25 @@ foreach ($line in $lines) {
   if (Test-Path $destDir) { $skipped++; continue }
 
   Write-Host "  $name..." -NoNewline
-  # NOTE: do not use $args here - it is an automatic variable in PowerShell
-  # and reassigning it corrupts splatting. Use a plain-named array instead.
-  $installArgs = @("-Repo", $repo, "-Name", $name)
-  if ($relPath) { $installArgs += @("-SkillRelPath", $relPath) }
+
+  # Handle local/* entries: these are hand-authored skills that live in fork
+  # mirrors, not on GitHub. Use -SourcePath instead of -Repo.
+  if ($repo -match '^local/') {
+    $forkName = $repo -replace '^local/', ''
+    $forkPath = "$env:USERPROFILE\dev\forks\JZKK720\$forkName"
+    $localSkillDir = if ($relPath) { Join-Path $forkPath $relPath } else { Join-Path $forkPath "skills\$name" }
+    if (-not (Test-Path (Join-Path $localSkillDir 'SKILL.md'))) {
+      Write-Host " SKIP (local fork mirror missing or no SKILL.md)"; $skipped++
+      continue
+    }
+    $installArgs = @("-SourcePath", $localSkillDir, "-Name", $name)
+  }
+  else {
+    # NOTE: do not use $args here - it is an automatic variable in PowerShell
+    # and reassigning it corrupts splatting. Use a plain-named array instead.
+    $installArgs = @("-Repo", $repo, "-Name", $name)
+    if ($relPath) { $installArgs += @("-SkillRelPath", $relPath) }
+  }
   if ($disabled) { $installArgs += "-Disabled" }
 
   # Invoke via `powershell -ExecutionPolicy Bypass -File` so the helper loads
