@@ -18,23 +18,10 @@ obra/superpowers|using-superpowers||
 obra/superpowers|dispatching-parallel-agents||
 shadcn/improve|improve||
 Forward-Future/loopy|loopy|skills/loopy|
-# loop-engineering: hand-authored skill for loop infrastructure (scaffold, score, schedule, govern).
-# Complements loopy (loop content) with loop infrastructure. Source: JZKK720/loop-engineering fork.
-# SKILL.md lives at ~/.agents/skills/loop-engineering/ — not a direct upstream install.
-local/loop-engineering|loop-engineering||
-# watch-skill: hand-authored skill for video intelligence (watch, remember, verify).
-# Upstream: oxbshw/watch-skill (MIT, 228★). MCP via `watch-skill serve`.
-# SKILL.md lives at ~/.agents/skills/watch-skill/ — not a direct upstream install.
-local/watch-skill|watch-skill||
-# wigolo: hand-authored skill for local-first web intelligence (search, fetch, crawl, research).
-# Upstream: KnockOutEZ/wigolo (AGPL-3.0). MCP via `npx wigolo`.
-# SKILL.md lives at ~/.agents/skills/wigolo/ — not a direct upstream install.
-local/wigolo|wigolo||
-# archify: agent skill for interactive architecture diagrams (workflow, sequence, dataflow, lifecycle).
-# Upstream: tt-a1i/archify (MIT, 7.8k★). Node.js CLI via `node bin/archify.mjs`.
-# SkillSpector: 0/100 LOW/SAFE. skills-ref: Valid. Zero Claude Code coupling.
-# SKILL.md lives at ~/.agents/skills/archify/ — not a direct upstream install.
-local/archify|archify||
+# loop-engineering, watch-skill, wigolo, archify: these are CLI/MCP tools, not
+# installable skills. They were hand-authored placeholder entries that never
+# had a SKILL.md. The CLIs are installed in Phase 2 (uv/npm), and the MCP
+# servers are in mcp.json.template. Removed from the skills manifest.
 DietrichGebert/ponytail|ponytail||
 Nutlope/hallmark|hallmark||
 Leonxlnx/taste-skill|taste-skill|skills/taste-skill|
