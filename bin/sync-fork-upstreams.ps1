@@ -61,6 +61,8 @@ $upstreamMap = @{
     "open-code-review"            = "alibaba/open-code-review"
     "compound-engineering-plugin" = "EveryInc/compound-engineering-plugin"
     "awesome-llm-apps"            = "Shubhamsaboo/awesome-llm-apps"
+    "archify"                     = "tt-a1i/archify"
+    "book-to-skill"               = "virgiliojr94/book-to-skill"
 }
 
 if (-not (Test-Path $ForksRoot)) {

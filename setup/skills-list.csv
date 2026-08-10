@@ -228,3 +228,16 @@ Shubhamsaboo/awesome-llm-apps|commit-archaeologist|agent_skills/commit-archaeolo
 Shubhamsaboo/awesome-llm-apps|scope-creep-detector|agent_skills/scope-creep-detector|
 Shubhamsaboo/awesome-llm-apps|dependency-doctor|agent_skills/dependency-doctor|
 Shubhamsaboo/awesome-llm-apps|project-graveyard|agent_skills/project-graveyard|
+# --- archify (tt-a1i, MIT, v2.13.0): interactive architecture diagram skill ---
+# Turns plain-English system descriptions or codebases into self-contained HTML
+# diagrams (architecture, workflow, sequence, dataflow, lifecycle). Zero-dep
+# renderer, typed JSON IR, validation, PNG/SVG/WebM export. Supports Claude
+# Code, Codex CLI, Cursor, OpenCode. SKILL.md at archify/archify/SKILL.md.
+# Fork mirror: ~/dev/forks/JZKK720/archify/
+tt-a1i/archify|archify|archify|
+# --- book-to-skill (virgiliojr94, MIT): convert books into agent skills ---
+# Converts PDF/EPUB/DOCX/HTML/Markdown/RTF/MOBI into structured agent skills
+# (frameworks, mental models, decision rules, anti-patterns). Generates per-
+# chapter files loaded on-demand. Supports Copilot CLI, Claude Code, Amp.
+# SKILL.md at repo root. Fork mirror: ~/dev/forks/JZKK720/book-to-skill/
+virgiliojr94/book-to-skill|book-to-skill||

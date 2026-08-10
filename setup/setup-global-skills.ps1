@@ -398,8 +398,20 @@ if (-not $SkipForks) {
   $allaTarget = Join-Path $dest "awesome-llm-apps"
   if (-not (Test-Path $allaTarget)) {
     cmd /c "git clone --depth 1 https://github.com/Shubhamsaboo/awesome-llm-apps.git `"$allaTarget`" >nul 2>nul"
+  }  # Non-JZKK720 fork mirror: tt-a1i/archify (MIT, v2.13.0).
+  # Interactive architecture diagram skill. 5 diagram types, zero-dep renderer.
+  # Supports Claude Code, Codex CLI, Cursor, OpenCode.
+  $archifyTarget = Join-Path $dest "archify"
+  if (-not (Test-Path $archifyTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/tt-a1i/archify.git `$"archifyTarget`" >nul 2>nul"
   }
-  $forkCount = (Get-ChildItem $dest -Directory).Count
+  # Non-JZKK720 fork mirror: virgiliojr94/book-to-skill (MIT).
+  # Converts books/documents into structured agent skills. Supports Copilot
+  # CLI, Claude Code, Amp. Python extraction scripts with stdlib fallbacks.
+  $btsTarget = Join-Path $dest "book-to-skill"
+  if (-not (Test-Path $btsTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/virgiliojr94/book-to-skill.git `$"btsTarget`" >nul 2>nul"
+  }  $forkCount = (Get-ChildItem $dest -Directory).Count
   Write-OK "$forkCount fork repos mirrored"
 }
 
