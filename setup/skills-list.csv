@@ -241,3 +241,9 @@ tt-a1i/archify|archify|archify|
 # chapter files loaded on-demand. Supports Copilot CLI, Claude Code, Amp.
 # SKILL.md at repo root. Fork mirror: ~/dev/forks/JZKK720/book-to-skill/
 virgiliojr94/book-to-skill|book-to-skill||
+# --- huashu-design (alchaincyf, MIT): bilingual design skill ---
+# Chinese/English design skill for prototypes, slides, animations, infographics,
+# expert reviews. 40+ design styles, references, assets, scripts. Agent-agnostic
+# (Claude Code, Cursor, Codex, OpenClaw, Hermes). SKILL.md at repo root.
+# Fork mirror: ~/dev/forks/JZKK720/huashu-design/
+alchaincyf/huashu-design|huashu-design||

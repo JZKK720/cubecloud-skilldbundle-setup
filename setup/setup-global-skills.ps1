@@ -277,7 +277,10 @@ $pyTools = @(
   @{name = "markitdown[all]"; pkg = "markitdown[all]" },
   @{name = "scrapling[ai]"; pkg = "scrapling[ai]" },
   @{name = "headroom-ai[proxy]"; pkg = "headroom-ai[proxy]" },
-  @{name = "watch-skill"; pkg = "git+https://github.com/oxbshw/watch-skill.git" }
+  @{name = "watch-skill"; pkg = "git+https://github.com/oxbshw/watch-skill.git" },
+  # semantica (semantica-agi/semantica, MIT): Python knowledge-graph library.
+  # Ships 17 plugin skills at plugins/skills/*/SKILL.md. Requires Python 3.10+.
+  @{name = "semantica"; pkg = "semantica" }
 )
 foreach ($t in $pyTools) {
   $binName = $t.name -replace '\[.*\]', ''
@@ -411,7 +414,28 @@ if (-not $SkipForks) {
   $btsTarget = Join-Path $dest "book-to-skill"
   if (-not (Test-Path $btsTarget)) {
     cmd /c "git clone --depth 1 https://github.com/virgiliojr94/book-to-skill.git `$"btsTarget`" >nul 2>nul"
-  }  $forkCount = (Get-ChildItem $dest -Directory).Count
+  }
+  # Non-JZKK720 fork mirror: alchaincyf/huashu-design (MIT).
+  # Bilingual (CN/EN) design skill: prototypes, slides, animations, infographics,
+  # expert reviews. 40+ design styles. Agent-agnostic. SKILL.md at repo root.
+  $huashuTarget = Join-Path $dest "huashu-design"
+  if (-not (Test-Path $huashuTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/alchaincyf/huashu-design.git `"$huashuTarget`" >nul 2>nul"
+  }
+  # Non-JZKK720 fork mirror: semantica-agi/semantica (MIT).
+  # Python knowledge-graph library with 17 plugin skills. CLI: uv tool install semantica.
+  $semanticaTarget = Join-Path $dest "semantica"
+  if (-not (Test-Path $semanticaTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/semantica-agi/semantica.git `"$semanticaTarget`" >nul 2>nul"
+  }
+  # Non-JZKK720 fork mirror: pranshuparmar/witr (Apache-2.0).
+  # "Why is this running?" — Go CLI for process ancestry investigation.
+  # Binary via GitHub releases (Go not required). No SKILL.md (CLI tool).
+  $witrTarget = Join-Path $dest "witr"
+  if (-not (Test-Path $witrTarget)) {
+    cmd /c "git clone --depth 1 https://github.com/pranshuparmar/witr.git `"$witrTarget`" >nul 2>nul"
+  }
+  $forkCount = (Get-ChildItem $dest -Directory).Count
   Write-OK "$forkCount fork repos mirrored"
 }
 

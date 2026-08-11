@@ -63,6 +63,9 @@ $upstreamMap = @{
     "awesome-llm-apps"            = "Shubhamsaboo/awesome-llm-apps"
     "archify"                     = "tt-a1i/archify"
     "book-to-skill"               = "virgiliojr94/book-to-skill"
+    "huashu-design"               = "alchaincyf/huashu-design"
+    "semantica"                   = "semantica-agi/semantica"
+    "witr"                        = "pranshuparmar/witr"
 }
 
 if (-not (Test-Path $ForksRoot)) {
