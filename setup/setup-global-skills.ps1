@@ -369,9 +369,12 @@ if (-not $witrBin) {
       }
       $env:Path += ";$witrDest"
       Write-OK ""
-    } else { Write-Fail "no Windows asset found" }
-  } catch { Write-Fail $_.Exception.Message }
-} else { Write-OK "witr already installed" }
+    }
+    else { Write-Fail "no Windows asset found" }
+  }
+  catch { Write-Fail $_.Exception.Message }
+}
+else { Write-OK "witr already installed" }
 
 # ============================================================
 # PHASE 3: FORK MIRRORS (optional)
