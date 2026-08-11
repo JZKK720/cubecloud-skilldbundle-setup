@@ -98,11 +98,14 @@ Then **restart VS Code**, open Copilot Chat, and type `#` to see your MCP tools 
 The script checks for and (where possible) installs these. Pre-install on a fresh machine:
 
 ```powershell
+winget install Python.Python.3.12
 winget install Python.Python.3.13
 winget install OpenJS.NodeJS
 winget install Git.Git
 winget install Microsoft.VisualStudioCode
 ```
+
+`Python 3.12` is used for guarded `headroom-ai` installs to avoid the unstable 3.13 build path.
 
 ## What's included
 
@@ -285,13 +288,16 @@ In Copilot Chat, try:
 ## To update later
 
 ```powershell
-# Re-run the installer (skips already-installed items)
+# Standard safe update pass (guarded headroom update + skills-ref repair + gbrain update + smoke)
+powershell -NoProfile -ExecutionPolicy Bypass -File .\bin\safe-update-pass.ps1
+
+# Or re-run the installer (skips already-installed items)
 powershell -NoProfile -ExecutionPolicy Bypass -File ~/dev/setup/setup-global-skills.ps1
 
-# Update tools
+# Manual fallback (if you need step-by-step control)
 uv tool upgrade --all
 npm update -g
-bun pm -g update
+bun install -g github:garrytan/gbrain
 
 # Re-scan all skills quarterly
 skillspector scan ~/.agents/skills/ --recursive --no-llm

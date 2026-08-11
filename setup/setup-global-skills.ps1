@@ -266,21 +266,21 @@ catch {
 
 $pyTools = @(
   # specify-cli installs as 'specify' binary (not 'specify-cli')
-  @{name = "specify-cli"; pkg = "specify-cli" },
+  @{name = "specify-cli"; pkg = "specify-cli"; py = "3.13" },
   # skillopt (microsoft/SkillOpt, MIT) ships 3 console scripts: skillopt-train,
   # skillopt-eval, skillopt-sleep. There is NO binary named 'skillopt', so probe
   # skillopt-eval for the skip-if-present check (matches the audit scripts).
-  @{name = "skillopt-eval"; pkg = "skillopt" },
-  @{name = "agent-reach"; pkg = "git+https://github.com/Panniantong/Agent-Reach.git" },
+  @{name = "skillopt-eval"; pkg = "skillopt"; py = "3.13" },
+  @{name = "agent-reach"; pkg = "git+https://github.com/Panniantong/Agent-Reach.git"; py = "3.13" },
   # graphifyy[mcp] installs as 'graphify' binary (not 'graphifyy')
-  @{name = "graphifyy[mcp]"; pkg = "graphifyy[mcp]" },
-  @{name = "markitdown[all]"; pkg = "markitdown[all]" },
-  @{name = "scrapling[ai]"; pkg = "scrapling[ai]" },
-  @{name = "headroom-ai[proxy]"; pkg = "headroom-ai[proxy]" },
-  @{name = "watch-skill"; pkg = "git+https://github.com/oxbshw/watch-skill.git" },
+  @{name = "graphifyy[mcp]"; pkg = "graphifyy[mcp]"; py = "3.13" },
+  @{name = "markitdown[all]"; pkg = "markitdown[all]"; py = "3.13" },
+  @{name = "scrapling[ai]"; pkg = "scrapling[ai]"; py = "3.13" },
+  @{name = "headroom-ai[proxy]"; pkg = "headroom-ai[proxy]"; py = "3.12" },
+  @{name = "watch-skill"; pkg = "git+https://github.com/oxbshw/watch-skill.git"; py = "3.13" },
   # semantica (semantica-agi/semantica, MIT): Python knowledge-graph library.
   # Ships 17 plugin skills at plugins/skills/*/SKILL.md. Requires Python 3.10+.
-  @{name = "semantica"; pkg = "semantica" }
+  @{name = "semantica"; pkg = "semantica"; py = "3.13" }
 )
 foreach ($t in $pyTools) {
   $binName = $t.name -replace '\[.*\]', ''
@@ -292,8 +292,17 @@ foreach ($t in $pyTools) {
   if ($binName -eq 'graphifyy') { $binName = 'graphify' }
   $already = Get-Command $binName -ErrorAction SilentlyContinue
   if ($already) { Write-OK "$binName already installed"; continue }
+  $pyVersion = if ($t.py) { $t.py } else { "3.13" }
+  if ($pyVersion -eq "3.12") {
+    $hasPy312 = $false
+    try { $null = & py -3.12 --version 2>&1; $hasPy312 = $true } catch {}
+    if (-not $hasPy312) {
+      Write-Warn "Python 3.12 not found; skipping $($t.name). Install Python 3.12 then run bin/safe-update-pass.ps1."
+      continue
+    }
+  }
   Write-Host "  Installing $($t.name)..." -NoNewline
-  cmd /c "uv tool install --python 3.13 `"$($t.pkg)`" > `"$env:TEMP\install_$($t.name).log`" 2>&1"
+  cmd /c "uv tool install --python $pyVersion `"$($t.pkg)`" > `"$env:TEMP\install_$($t.name).log`" 2>&1"
   if ($LASTEXITCODE -eq 0) { Write-OK "" } else { Write-Fail "exit $LASTEXITCODE" }
 }
 

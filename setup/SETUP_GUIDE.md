@@ -54,11 +54,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-global-skills.ps1 -I
 The script checks for these and installs uv/bun if missing. These must be pre-installed:
 
 ```powershell
+winget install Python.Python.3.12
 winget install Python.Python.3.13
 winget install OpenJS.NodeJS
 winget install Git.Git
 winget install Microsoft.VisualStudioCode
 ```
+
+`Python 3.12` is required for the guarded headroom update path used by `bin/safe-update-pass.ps1`.
 
 ### What gets installed
 
@@ -178,13 +181,16 @@ Every skill is scanned by **NVIDIA SkillSpector** before install:
 ### To update skills later
 
 ```powershell
+# Standard safe update pass (guarded headroom update + skills-ref repair + gbrain update + smoke)
+powershell -NoProfile -ExecutionPolicy Bypass -File .\bin\safe-update-pass.ps1
+
 # Re-run the setup script (it skips already-installed items)
 powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-global-skills.ps1
 
-# Or update individual tools
+# Or update individual tools manually
 uv tool upgrade --all
 npm update -g
-bun pm -g update
+bun install -g github:garrytan/gbrain
 
 # Re-scan all skills quarterly
 skillspector scan ~/.agents/skills/ --recursive --no-llm
