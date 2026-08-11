@@ -21,20 +21,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-global-skills.ps1 -I
 
 ### What the setup script does
 
-| Phase | What                                                                                                                                                                                                                                               | Time    |
-| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| 0     | Check/install prerequisites (Python, Node, Git, uv, bun)                                                                                                                                                                                           | ~2 min  |
-| 0b    | Persist PATH + PYTHONUTF8=1 for user                                                                                                                                                                                                               | instant |
-| 0c    | Create directory skeleton (~/.agents/skills, ~/.claude/skills, ~/dev/)                                                                                                                                                                             | instant |
-| 1     | Install SkillSpector (security scanner) + skills-ref (spec validator)                                                                                                                                                                              | ~2 min  |
-| 1b    | Copy install-skill.ps1 helper to ~/dev/bin/                                                                                                                                                                                                        | instant |
-| 2     | Install 15 CLI tools (uv tool + npm + bun)                                                                                                                                                                                                         | ~5 min  |
+| Phase | What                                                                                                                                                                                                                                                                                                                         | Time    |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| 0     | Check/install prerequisites (Python, Node, Git, uv, bun)                                                                                                                                                                                                                                                                     | ~2 min  |
+| 0b    | Persist PATH + PYTHONUTF8=1 for user                                                                                                                                                                                                                                                                                         | instant |
+| 0c    | Create directory skeleton (~/.agents/skills, ~/.claude/skills, ~/dev/)                                                                                                                                                                                                                                                       | instant |
+| 1     | Install SkillSpector (security scanner) + skills-ref (spec validator)                                                                                                                                                                                                                                                        | ~2 min  |
+| 1b    | Copy install-skill.ps1 helper to ~/dev/bin/                                                                                                                                                                                                                                                                                  | instant |
+| 2     | Install 17 CLI tools (uv tool + npm + bun + release binary)                                                                                                                                                                                                                                                                   | ~5 min  |
 | 3     | Clone 39 fork mirrors (29 JZKK720 + awesome-design-md + microsoft/SkillOpt + alibaba/open-code-review + EveryInc/compound-engineering-plugin + Shubhamsaboo/awesome-llm-apps + tt-a1i/archify + virgiliojr94/book-to-skill + alchaincyf/huashu-design + semantica-agi/semantica + pranshuparmar/witr) (skip with -SkipForks) | ~2 min  |
-| 4     | Install 144 manifest entries (143 active + 1 disabled) through the security-gated pipeline; combined with extension/CLI-provisioned skills this yields 172 active total                                                                            | ~5 min  |
-| 5     | Configure 11 MCP servers in VS Code User/mcp.json (and optional alternate editor profiles)                                                                                                                                                         | instant |
-| 5b    | Pin Copilot utility models in VS Code User/settings.json (and optional alternate editor profiles)                                                                                                                                                  | instant |
-| 6     | Create governance docs (README, CONFLICTS, MEMORY_POLICY, UPDATE_POLICY, SCAN_LOG)                                                                                                                                                                 | instant |
-| 7     | Quick audit (skill count, CLI check, mcp.json validation)                                                                                                                                                                                          | instant |
+| 4     | Install 144 manifest entries (143 active + 1 disabled) through the security-gated pipeline; combined with extension/CLI-provisioned skills this yields 172 active total                                                                                                                                                      | ~5 min  |
+| 5     | Configure 11 MCP servers in VS Code User/mcp.json (and optional alternate editor profiles)                                                                                                                                                                                                                                   | instant |
+| 5b    | Pin Copilot utility models in VS Code User/settings.json (and optional alternate editor profiles)                                                                                                                                                                                                                            | instant |
+| 6     | Create governance docs (README, CONFLICTS, MEMORY_POLICY, UPDATE_POLICY, SCAN_LOG)                                                                                                                                                                                                                                           | instant |
+| 7     | Quick audit (skill count, CLI check, mcp.json validation)                                                                                                                                                                                                                                                                    | instant |
 
 **Total time: ~15 minutes** (or ~10 min with `-SkipForks`)
 
@@ -72,12 +72,13 @@ winget install Microsoft.VisualStudioCode
 - `chat.utilitySmallModel = ollama-models/ornith:9b-q8_0`
 - `chat.byokUtilityModelDefault = mainAgent` (BYOK fallback when a utility flow needs a default)
 
-**16 CLI tools** (on permanent user PATH):
+**18 CLI tools** (on permanent user PATH):
 
-- skillspector, skills-ref, specify, skillopt-eval, agent-reach, graphify, markitdown, scrapling (via uv)
+- skillspector, skills-ref, specify, skillopt-eval, agent-reach, graphify, markitdown, scrapling, semantica (via uv)
 - uipro, firecrawl, loop, wigolo, ocr (via npm)
 - gbrain (via bun)
 - headroom, watch-skill (via uv; watch-skill from GitHub source)
+- witr (via GitHub release binary — Go binary, no Go toolchain needed)
 
 **144 manifest entries (143 active + 1 disabled) + 29 extension/CLI-provisioned skills = 172 active total** (in ~/.agents/skills/ — discovered by VS Code Copilot Chat):
 

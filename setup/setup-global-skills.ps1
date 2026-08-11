@@ -345,6 +345,34 @@ if ($gb) {
   Write-OK "gbrain initialized (PGLite, deferred embeddings)"
 }
 
+# witr (pranshuparmar/witr, Apache-2.0): Go binary from GitHub releases.
+# No Go toolchain needed — download prebuilt Windows binary.
+$witrBin = Get-Command witr -ErrorAction SilentlyContinue
+if (-not $witrBin) {
+  Write-Host "  Installing witr (GitHub release binary)..." -NoNewline
+  try {
+    $progressPreference = 'SilentlyContinue'
+    $witrRelease = Invoke-RestMethod "https://api.github.com/repos/pranshuparmar/witr/releases/latest"
+    $witrAsset = $witrRelease.assets | Where-Object { $_.name -eq 'witr-windows-amd64.zip' } | Select-Object -First 1
+    if ($witrAsset) {
+      $witrZip = Join-Path $env:TEMP "witr-install.zip"
+      $witrExtract = Join-Path $env:TEMP "witr-install-extract"
+      Invoke-WebRequest -Uri $witrAsset.browser_download_url -OutFile $witrZip
+      if (Test-Path $witrExtract) { Remove-Item $witrExtract -Recurse -Force }
+      Expand-Archive -Path $witrZip -DestinationPath $witrExtract -Force
+      $witrDest = Join-Path $env:LOCALAPPDATA "Programs\witr"
+      if (-not (Test-Path $witrDest)) { New-Item -ItemType Directory -Path $witrDest -Force | Out-Null }
+      Copy-Item (Join-Path $witrExtract "witr.exe") $witrDest -Force
+      $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+      if ($userPath -notlike "*$witrDest*") {
+        [Environment]::SetEnvironmentVariable("Path", "$userPath;$witrDest", "User")
+      }
+      $env:Path += ";$witrDest"
+      Write-OK ""
+    } else { Write-Fail "no Windows asset found" }
+  } catch { Write-Fail $_.Exception.Message }
+} else { Write-OK "witr already installed" }
+
 # ============================================================
 # PHASE 3: FORK MIRRORS (optional)
 # ============================================================
