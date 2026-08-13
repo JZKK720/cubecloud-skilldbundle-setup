@@ -238,12 +238,30 @@ tt-a1i/archify|archify|archify|
 # --- book-to-skill (virgiliojr94, MIT): convert books into agent skills ---
 # Converts PDF/EPUB/DOCX/HTML/Markdown/RTF/MOBI into structured agent skills
 # (frameworks, mental models, decision rules, anti-patterns). Generates per-
-# chapter files loaded on-demand. Supports Copilot CLI, Claude Code, Amp.
-# SKILL.md at repo root. Fork mirror: ~/dev/forks/JZKK720/book-to-skill/
-virgiliojr94/book-to-skill|book-to-skill||
+# chapter files loaded on-demand. Upstream blocked by SkillSpector (CRITICAL,
+# 100/100 - bundled Python scripts with subprocess/dynamic imports). Clean
+# methodology-only port uses the bundle's `markitdown` for extraction.
+# Source lives at upstream/book-to-skill/SKILL.md.
+local/book-to-skill|book-to-skill||upstream/book-to-skill
 # --- huashu-design (alchaincyf, MIT): bilingual design skill ---
 # Chinese/English design skill for prototypes, slides, animations, infographics,
 # expert reviews. 40+ design styles, references, assets, scripts. Agent-agnostic
 # (Claude Code, Cursor, Codex, OpenClaw, Hermes). SKILL.md at repo root.
 # Fork mirror: ~/dev/forks/JZKK720/huashu-design/
 alchaincyf/huashu-design|huashu-design||
+# --- anti-slop (miqdadbadjuber/anti-slop, MIT): anti-AI-slop design & copy rules ---
+# 38 rules across 3 tiers (Hard Gate / Purpose-Gate / Quality Locks) + Liveliness
+# Toolkit + mandatory Delivery Gate. Upstream ships a raw antislop.md (not yet a
+# SKILL.md); hand-ported as a clean methodology-only skill (no scripts/assets).
+# Source lives at upstream/anti-slop/SKILL.md. Complements hallmark, taste-skill,
+# baseline-ui, improve-ui, huashu-design.
+local/anti-slop|anti-slop||upstream/anti-slop
+# --- diagram-design (cathrynlavery/diagram-design, MIT): editorial diagrams ---
+# 29 diagram types (architecture, flowchart, sequence, state machine, ER, timeline,
+# swimlane, quadrant, radar, Venn, Gantt, medallion, DP security matrix) as
+# self-contained HTML/SVG/PNG. Import .drawio / Mermaid .mmd. Upstream blocked
+# by SkillSpector (HIGH, 55/100 - HTML assets flagged as P2 hidden instructions).
+# Clean methodology-only port retains the full prose; assets referenced from
+# upstream. Source lives at upstream/diagram-design/SKILL.md.
+# Complements archify + huashu-design.
+local/diagram-design|diagram-design||upstream/diagram-design

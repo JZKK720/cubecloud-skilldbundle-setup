@@ -1,13 +1,13 @@
 # 🧊 CubeCloud Skills Bundle
 
-> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 144 skills, 18 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
+> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 153 skills, 19 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
 
-[![Skills](https://img.shields.io/badge/skills-144-2ea44f)](#whats-included)
-[![CLIs](https://img.shields.io/badge/CLIs-18-blue)](#clis-installed)
+[![Skills](https://img.shields.io/badge/skills-153-2ea44f)](#whats-included)
+[![CLIs](https://img.shields.io/badge/CLIs-19-blue)](#clis-installed)
 [![MCP servers](https://img.shields.io/badge/MCP%20servers-11-purple)](#mcp-servers)
 [![Security gate](https://img.shields.io/badge/security%20gate-SkillSpector-green)](#security-model)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4)](#prerequisites)
-[![Version](https://img.shields.io/badge/version-1.5.0-orange)](#changelog)
+[![Version](https://img.shields.io/badge/version-1.6.0-orange)](#changelog)
 [![License](https://img.shields.io/badge/license-MIT-success)](LICENSE)
 
 ---
@@ -22,8 +22,8 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 
 |                    | Count   | What                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🧠 Skills          | **144** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, archify diagrams, huashu-design, and more                                                                                                                                                                                         |
-| 🔧 CLIs            | **18**  | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr`, `semantica`, `witr`                                                                                                                                                                |
+| 🧠 Skills          | **153** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, archify diagrams, huashu-design, and more                                                                                                                                                                                         |
+| 🔧 CLIs            | **19**  | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr`, `semantica`, `witr`, `pdf-inspector`                                                                                                                                               |
 | 🔌 MCP servers     | **11**  | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt                                                                                                                                                                                                                                   |
 | 📚 Fork mirrors    | **39**  | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, EveryInc/compound-engineering-plugin, Shubhamsaboo/awesome-llm-apps, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo, tt-a1i/archify, virgiliojr94/book-to-skill, alchaincyf/huashu-design, semantica-agi/semantica, pranshuparmar/witr |
 | 🎨 DESIGN.md files | **74**  | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill                                                                                                                                                                                                                                                                      |
@@ -195,6 +195,7 @@ Custom implementations maintained in this setup are `agent-reach` and `gstack-re
 | `wigolo`        | npm    | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools. |
 | `ocr`           | npm    | AI-powered code review CLI — `ocr review`, `scan`, `delegate`. Deterministic + agent hybrid architecture (alibaba/open-code-review, Apache-2.0). Battle-tested at Alibaba's scale. |
 | `witr`          | binary | "Why is this running?" — Go process ancestry investigator (v0.3.3). Installed from GitHub releases (no Go toolchain needed). |
+| `pdf-inspector` | uv     | Rust PDF classification + text extraction (firecrawl/pdf-inspector, MIT). Detects text vs scanned PDFs in ~10-50ms and extracts position-aware text to clean Markdown, no OCR. Routes OCR only when needed. |
 
 ### MCP servers
 
@@ -262,7 +263,7 @@ Full verdict history is in [`upstream/SCAN_LOG.md`](upstream/SCAN_LOG.md).
 ├── setup/                      # the one-command installer + config
 │   ├── setup-global-skills.ps1 # master installer
 │   ├── install-skill.ps1       # security-gated skill install helper
-│   ├── skills-list.csv         # manifest of 144 entries (143 active + 1 disabled)
+│   ├── skills-list.csv         # manifest of 154 entries (153 active + 1 disabled)
 │   ├── mcp.json.template       # 11 MCP server config
 │   └── SETUP_GUIDE.md          # detailed guide
 ├── bin/                        # 17 audit/fix/install helper scripts
@@ -324,6 +325,15 @@ cd ~/dev/bin
 
 ## Changelog
 
+### v1.6.0 (2026-08-13)
+
+**153 skills · 19 CLIs · 11 MCP servers · 39 fork mirrors · 173 active total**
+
+- **+2 skills (clean ports)**: `anti-slop` (miqdadbadjuber/anti-slop, MIT) and `diagram-design` (cathrynlavery/diagram-design, MIT)
+- **+2 skills re-ported**: `book-to-skill` and `diagram-design` upstreams were blocked by SkillSpector (CRITICAL/HIGH — bundled Python scripts + HTML assets); re-authored as clean methodology-only `local/*` ports using `markitdown` for extraction
+- **+1 CLI**: `pdf-inspector` (firecrawl/pdf-inspector, MIT — Rust PDF classification + text extraction)
+- **Fix**: Phase 4 local/\* handling now reads the 5th CSV column (`upstream/<name>`) for source paths, matching `install-missing-skills.ps1`
+
 ### v1.5.0 (2026-08-11)
 
 **144 skills · 18 CLIs · 11 MCP servers · 39 fork mirrors · 172 active total**
@@ -332,7 +342,7 @@ cd ~/dev/bin
 - **+2 CLIs**: `semantica` (uv tool, v0.6.0), `witr` (GitHub release binary, v0.3.3 — no Go needed)
 - **+3 fork mirrors**: alchaincyf/huashu-design, semantica-agi/semantica, pranshuparmar/witr
 - **Phase 2**: automatic `witr` release-binary download added (no Go toolchain required)
-- **Bug fixes**: removed 4 dead `local/*` placeholder entries from skills-list.csv; fixed local/* handling in Phase 4
+- **Bug fixes**: removed 4 dead `local/*` placeholder entries from skills-list.csv; fixed local/\* handling in Phase 4
 - **25 compound-engineering skills** integrated (blocked by SkillSpector risk 81/100 — available as fork mirror)
 
 ### v1.4.0 (2026-07-15)

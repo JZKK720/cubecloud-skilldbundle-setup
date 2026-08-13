@@ -280,7 +280,11 @@ $pyTools = @(
   @{name = "watch-skill"; pkg = "git+https://github.com/oxbshw/watch-skill.git"; py = "3.13" },
   # semantica (semantica-agi/semantica, MIT): Python knowledge-graph library.
   # Ships 17 plugin skills at plugins/skills/*/SKILL.md. Requires Python 3.10+.
-  @{name = "semantica"; pkg = "semantica"; py = "3.13" }
+  @{name = "semantica"; pkg = "semantica"; py = "3.13" },
+  # pdf-inspector (firecrawl/pdf-inspector, MIT): Rust PDF classification +
+  # position-aware text extraction -> clean Markdown, no OCR. Detects text vs
+  # scanned PDFs (~10-50ms) to route OCR only when needed. Python binding.
+  @{name = "pdf-inspector"; pkg = "pdf-inspector"; py = "3.13" }
 )
 foreach ($t in $pyTools) {
   $binName = $t.name -replace '\[.*\]', ''
@@ -513,6 +517,7 @@ foreach ($line in $lines) {
   $name = $parts[1].Trim()
   $relPath = $parts[2].Trim()
   $disabled = $parts[3].Trim() -eq "true"
+  $sourcePath = if ($parts.Length -ge 5) { $parts[4].Trim() } else { '' }
 
   # Skip if already installed
   $destDir = if ($disabled) { "$env:USERPROFILE\.agents\skills._disabled\$name" }
@@ -521,17 +526,18 @@ foreach ($line in $lines) {
 
   Write-Host "  $name..." -NoNewline
 
-  # Handle local/* entries: these are hand-authored skills that live in fork
-  # mirrors, not on GitHub. Use -SourcePath instead of -Repo.
+  # Handle local/* entries: these are hand-authored skills that live in the
+  # repo's upstream/ folder (5th CSV column), not on GitHub. Use -SourcePath.
   if ($repo -match '^local/') {
-    $forkName = $repo -replace '^local/', ''
-    $forkPath = "$env:USERPROFILE\dev\forks\JZKK720\$forkName"
-    $localSkillDir = if ($relPath) { Join-Path $forkPath $relPath } else { Join-Path $forkPath "skills\$name" }
-    if (-not (Test-Path (Join-Path $localSkillDir 'SKILL.md'))) {
-      Write-Host " SKIP (local fork mirror missing or no SKILL.md)"; $skipped++
+    if (-not $sourcePath) { $sourcePath = "upstream/$name" }
+    if (-not [System.IO.Path]::IsPathRooted($sourcePath)) {
+      $sourcePath = Join-Path (Split-Path $PSScriptRoot -Parent) $sourcePath
+    }
+    if (-not (Test-Path (Join-Path $sourcePath 'SKILL.md'))) {
+      Write-Host " SKIP (local source missing or no SKILL.md)"; $skipped++
       continue
     }
-    $installArgs = @("-SourcePath", $localSkillDir, "-Name", $name)
+    $installArgs = @("-SourcePath", $sourcePath, "-Name", $name)
   }
   else {
     # NOTE: do not use $args here - it is an automatic variable in PowerShell
