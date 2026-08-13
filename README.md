@@ -1,9 +1,9 @@
 # 🧊 CubeCloud Skills Bundle
 
-> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 153 skills, 19 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
+> One-command setup for a full **VS Code Copilot Chat** agent-skills stack on Windows — 153 skills, 18 CLIs, 11 MCP servers, and a 74-site design-system library, all security-gated.
 
 [![Skills](https://img.shields.io/badge/skills-153-2ea44f)](#whats-included)
-[![CLIs](https://img.shields.io/badge/CLIs-19-blue)](#clis-installed)
+[![CLIs](https://img.shields.io/badge/CLIs-18-blue)](#clis-installed)
 [![MCP servers](https://img.shields.io/badge/MCP%20servers-11-purple)](#mcp-servers)
 [![Security gate](https://img.shields.io/badge/security%20gate-SkillSpector-green)](#security-model)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4)](#prerequisites)
@@ -23,7 +23,7 @@ VS Code Copilot Chat gets dramatically more powerful when you give it **skills**
 |                    | Count   | What                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 🧠 Skills          | **153** | Discovered by Copilot Chat — superpowers methodology, ui-skills, agent-skills, ECC agent engineering, Azure patterns, design systems, code review, debugging, archify diagrams, huashu-design, and more                                                                                                                                                                                         |
-| 🔧 CLIs            | **19**  | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr`, `semantica`, `witr`, `pdf-inspector`                                                                                                                                               |
+| 🔧 CLIs            | **18**  | On PATH: `skillspector`, `skills-ref`, `specify`, `agent-reach`, `graphify`, `markitdown`, `gbrain`, `scrapling`, `uipro`, `firecrawl`, `skillopt-eval`, `headroom`, `loop`, `watch-skill`, `wigolo`, `ocr`, `semantica`, `witr`                                                                                                                                                                |
 | 🔌 MCP servers     | **11**  | Configured in VS Code `mcp.json`: markitdown, skillspector, firecrawl, scrapling, gbrain, graphify, headroom, loop-engineering, watch-skill, wigolo, skillopt                                                                                                                                                                                                                                   |
 | 📚 Fork mirrors    | **39**  | Read-only backups in `~/dev/forks/JZKK720/`, including VoltAgent/awesome-design-md, microsoft/SkillOpt, alibaba/open-code-review, EveryInc/compound-engineering-plugin, Shubhamsaboo/awesome-llm-apps, cobusgreyling/loop-engineering, oxbshw/watch-skill, KnockOutEZ/wigolo, tt-a1i/archify, virgiliojr94/book-to-skill, alchaincyf/huashu-design, semantica-agi/semantica, pranshuparmar/witr |
 | 🎨 DESIGN.md files | **74**  | Real-world design systems (Apple, Stripe, Linear, Vercel, Notion, Airbnb, Tesla…) indexed by the `design-md-library` skill                                                                                                                                                                                                                                                                      |
@@ -175,27 +175,26 @@ Custom implementations maintained in this setup are `agent-reach` and `gstack-re
 
 ### CLIs installed
 
-| Tool            | Source | Purpose |
-| --------------- | ------ | ------- |
-| `skillspector`  | uv     | Security scanner — hard gate for every skill install |
-| `skills-ref`    | uv     | Spec validator (advisory) |
+| Tool            | Source | Purpose                                                                                                                                                                                                                                                                                                |
+| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `skillspector`  | uv     | Security scanner — hard gate for every skill install                                                                                                                                                                                                                                                   |
+| `skills-ref`    | uv     | Spec validator (advisory)                                                                                                                                                                                                                                                                              |
 | `specify`       | uv     | Spec-Driven Development CLI — `specify init` bootstraps a project with 10 Copilot-native `.agent.md` workflow commands (specify → plan → tasks → implement → converge), a 4-layer template resolution stack, and community extensions/presets/bundles. Pairs with the `spec-driven-development` skill. |
-| `skillopt-eval` | uv     | Skill evaluation harness |
-| `agent-reach`   | uv     | 15-platform research access |
-| `graphify`      | uv     | Folder → knowledge graph |
-| `markitdown`    | uv     | Convert anything to Markdown |
-| `scrapling`     | uv     | Stealthy web scraping |
-| `semantica`     | uv     | Python knowledge-graph library with 17 plugin skills (v0.6.0). Requires Python 3.10+. |
-| `uipro`         | npm    | UI/UX workflow CLI |
-| `firecrawl`     | npm    | Firecrawl API CLI |
-| `gbrain`        | bun    | Persistent agent memory |
-| `headroom`      | uv     | Context compression layer for AI agents (60-95% fewer tokens); MCP server exposes `headroom_compress`, `headroom_retrieve`, `headroom_stats`. Requires Defender exclusion for `ast-grep-cli` — see [Platform limitations](#platform-limitations-windows). |
-| `loop`          | npm    | Loop engineering CLI front door — `npx @cobusgreyling/loop init`, `doctor`, `status`, `audit`, `cost`. Scaffolds agent loops (daily triage, PR babysitter, CI sweeper, etc.) with Loop Ready scoring. |
-| `watch-skill`   | uv     | Video intelligence CLI — `watch-skill watch`, `ask`, `search`, `serve`. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP verification. |
-| `wigolo`        | npm    | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools. |
-| `ocr`           | npm    | AI-powered code review CLI — `ocr review`, `scan`, `delegate`. Deterministic + agent hybrid architecture (alibaba/open-code-review, Apache-2.0). Battle-tested at Alibaba's scale. |
-| `witr`          | binary | "Why is this running?" — Go process ancestry investigator (v0.3.3). Installed from GitHub releases (no Go toolchain needed). |
-| `pdf-inspector` | uv     | Rust PDF classification + text extraction (firecrawl/pdf-inspector, MIT). Detects text vs scanned PDFs in ~10-50ms and extracts position-aware text to clean Markdown, no OCR. Routes OCR only when needed. |
+| `skillopt-eval` | uv     | Skill evaluation harness                                                                                                                                                                                                                                                                               |
+| `agent-reach`   | uv     | 15-platform research access                                                                                                                                                                                                                                                                            |
+| `graphify`      | uv     | Folder → knowledge graph                                                                                                                                                                                                                                                                               |
+| `markitdown`    | uv     | Convert anything to Markdown                                                                                                                                                                                                                                                                           |
+| `scrapling`     | uv     | Stealthy web scraping                                                                                                                                                                                                                                                                                  |
+| `semantica`     | uv     | Python knowledge-graph library with 17 plugin skills (v0.6.0). Requires Python 3.10+.                                                                                                                                                                                                                  |
+| `uipro`         | npm    | UI/UX workflow CLI                                                                                                                                                                                                                                                                                     |
+| `firecrawl`     | npm    | Firecrawl API CLI                                                                                                                                                                                                                                                                                      |
+| `gbrain`        | bun    | Persistent agent memory                                                                                                                                                                                                                                                                                |
+| `headroom`      | uv     | Context compression layer for AI agents (60-95% fewer tokens); MCP server exposes `headroom_compress`, `headroom_retrieve`, `headroom_stats`. Requires Defender exclusion for `ast-grep-cli` — see [Platform limitations](#platform-limitations-windows).                                              |
+| `loop`          | npm    | Loop engineering CLI front door — `npx @cobusgreyling/loop init`, `doctor`, `status`, `audit`, `cost`. Scaffolds agent loops (daily triage, PR babysitter, CI sweeper, etc.) with Loop Ready scoring.                                                                                                  |
+| `watch-skill`   | uv     | Video intelligence CLI — `watch-skill watch`, `ask`, `search`, `serve`. 23 MCP tools for video analysis, transcription, OCR, and THE LOOP verification.                                                                                                                                                |
+| `wigolo`        | npm    | Local-first web intelligence — `npx wigolo`. 10 MCP tools for search, fetch, crawl, extract, research. No API keys needed for core tools.                                                                                                                                                              |
+| `ocr`           | npm    | AI-powered code review CLI — `ocr review`, `scan`, `delegate`. Deterministic + agent hybrid architecture (alibaba/open-code-review, Apache-2.0). Battle-tested at Alibaba's scale.                                                                                                                     |
+| `witr`          | binary | "Why is this running?" — Go process ancestry investigator (v0.3.3). Installed from GitHub releases (no Go toolchain needed).                                                                                                                                                                           |
 
 ### MCP servers
 
@@ -327,11 +326,10 @@ cd ~/dev/bin
 
 ### v1.6.0 (2026-08-13)
 
-**153 skills · 19 CLIs · 11 MCP servers · 39 fork mirrors · 173 active total**
+**153 skills · 18 CLIs · 11 MCP servers · 39 fork mirrors · 172 active total**
 
-- **+2 skills (clean ports)**: `anti-slop` (miqdadbadjuber/anti-slop, MIT) and `diagram-design` (cathrynlavery/diagram-design, MIT)
-- **+2 skills re-ported**: `book-to-skill` and `diagram-design` upstreams were blocked by SkillSpector (CRITICAL/HIGH — bundled Python scripts + HTML assets); re-authored as clean methodology-only `local/*` ports using `markitdown` for extraction
-- **+1 CLI**: `pdf-inspector` (firecrawl/pdf-inspector, MIT — Rust PDF classification + text extraction)
+- **+3 skills (clean ports)**: `anti-slop` (miqdadbadjuber/anti-slop, MIT), `diagram-design` (cathrynlavery/diagram-design, MIT), `book-to-skill` (virgiliojr94/book-to-skill, MIT)
+  - `book-to-skill` and `diagram-design` upstreams were blocked by SkillSpector (CRITICAL/HIGH — bundled Python scripts + HTML assets); re-authored as clean methodology-only `local/*` ports using `markitdown` for extraction
 - **Fix**: Phase 4 local/\* handling now reads the 5th CSV column (`upstream/<name>`) for source paths, matching `install-missing-skills.ps1`
 
 ### v1.5.0 (2026-08-11)
