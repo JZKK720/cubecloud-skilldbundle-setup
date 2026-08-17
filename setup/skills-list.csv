@@ -265,3 +265,19 @@ local/anti-slop|anti-slop||upstream/anti-slop
 # upstream. Source lives at upstream/diagram-design/SKILL.md.
 # Complements archify + huashu-design.
 local/diagram-design|diagram-design||upstream/diagram-design
+# --- crucible (chaseai-yt, MIT, 1.2k★): cross-model adversarial plan hardening ---
+# Three-phase plan hardening: recon → interrogate → Codex adversarial review.
+# Two AI models harden your plan before a line of code exists, then swap jobs
+# to build it. 3 active skills (crucible, codex-review, codex-build) + 2 legacy.
+# Passes SkillSpector (MEDIUM/CAUTION — no executable scripts, no YARA hits).
+# Complements doubt-driven-development, council, and systematic-debugging.
+# Fork mirror: ~/dev/forks/JZKK720/crucible/
+JZKK720/crucible|crucible|skills/crucible|
+JZKK720/crucible|codex-review|skills/codex-review|
+JZKK720/crucible|codex-build|skills/codex-build|
+# --- llm-council (aiwithremy, MIT, 1.6k★): multi-advisor decision review ---
+# Runs decisions through 5 AI advisors with peer review. Different approach
+# from ECC's council (4-voice): 5 advisors + explicit peer-review phase.
+# SKILL.md at repo root. Passes SkillSpector (LOW/SAFE — pure prose, no scripts).
+# Fork mirror: ~/dev/forks/JZKK720/claude-skills-llm-council/
+JZKK720/claude-skills-llm-council|llm-council||
