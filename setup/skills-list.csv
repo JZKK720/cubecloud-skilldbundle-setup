@@ -281,3 +281,45 @@ JZKK720/crucible|codex-build|skills/codex-build|
 # SKILL.md at repo root. Passes SkillSpector (LOW/SAFE — pure prose, no scripts).
 # Fork mirror: ~/dev/forks/JZKK720/claude-skills-llm-council/
 JZKK720/claude-skills-llm-council|llm-council||
+# --- context-engineering-kit (NeoLabHQ, MIT, 1.3k★): hand-crafted context eng skills ---
+# 65 skills total; we cherry-pick 35 genuinely unique ones (no overlap with existing
+# bundle skills). Passes SkillSpector with 9B LLM: LOW/SAFE (static CRITICAL was YARA
+# false positives on prompt-injection documentation patterns, correctly downgraded by
+# LLM meta-analyzer). Includes CodeRabbit open-source alternative. Multi-harness compat
+# (OpenCode, Cursor, Antigravity, Gemini CLI).
+# Fork mirror: ~/dev/forks/JZKK720/context-engineering-kit/
+JZKK720/context-engineering-kit|actualize|skills/actualize|
+JZKK720/context-engineering-kit|agent-evaluation|skills/agent-evaluation|
+JZKK720/context-engineering-kit|analyse|skills/analyse|
+JZKK720/context-engineering-kit|analyse-problem|skills/analyse-problem|
+JZKK720/context-engineering-kit|analyze-issue|skills/analyze-issue|
+JZKK720/context-engineering-kit|apply-anthropic-skill-best-practices|skills/apply-anthropic-skill-best-practices|
+JZKK720/context-engineering-kit|attach-review-to-pr|skills/attach-review-to-pr|
+JZKK720/context-engineering-kit|build-mcp|skills/build-mcp|
+JZKK720/context-engineering-kit|cause-and-effect|skills/cause-and-effect|
+JZKK720/context-engineering-kit|critique|skills/critique|
+JZKK720/context-engineering-kit|do-and-judge|skills/do-and-judge|
+JZKK720/context-engineering-kit|do-competitively|skills/do-competitively|
+JZKK720/context-engineering-kit|do-in-parallel|skills/do-in-parallel|
+JZKK720/context-engineering-kit|do-in-steps|skills/do-in-steps|
+JZKK720/context-engineering-kit|git-notes|skills/git-notes|
+JZKK720/context-engineering-kit|judge|skills/judge|
+JZKK720/context-engineering-kit|judge-with-debate|skills/judge-with-debate|
+JZKK720/context-engineering-kit|kaizen|skills/kaizen|
+JZKK720/context-engineering-kit|load-issues|skills/load-issues|
+JZKK720/context-engineering-kit|load-pr-comments|skills/load-pr-comments|
+JZKK720/context-engineering-kit|plan-do-check-act|skills/plan-do-check-act|
+JZKK720/context-engineering-kit|prompt-engineering|skills/prompt-engineering|
+JZKK720/context-engineering-kit|propose-hypotheses|skills/propose-hypotheses|
+JZKK720/context-engineering-kit|review-local-changes|skills/review-local-changes|
+JZKK720/context-engineering-kit|setup-arxiv-mcp|skills/setup-arxiv-mcp|
+JZKK720/context-engineering-kit|setup-codemap-cli|skills/setup-codemap-cli|
+JZKK720/context-engineering-kit|setup-context7-mcp|skills/setup-context7-mcp|
+JZKK720/context-engineering-kit|setup-serena-mcp|skills/setup-serena-mcp|
+JZKK720/context-engineering-kit|test-prompt|skills/test-prompt|
+JZKK720/context-engineering-kit|test-skill|skills/test-skill|
+JZKK720/context-engineering-kit|thought-based-reasoning|skills/thought-based-reasoning|
+JZKK720/context-engineering-kit|traiage-review|skills/traiage-review|
+JZKK720/context-engineering-kit|tree-of-thoughts|skills/tree-of-thoughts|
+JZKK720/context-engineering-kit|why|skills/why|
+JZKK720/context-engineering-kit|write-concisely|skills/write-concisely|
